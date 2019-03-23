@@ -15,7 +15,7 @@ int main(int argc, char ** argv)
 
 	FILE * in = NULL;
 
-	if ( ( in = fopen(argv[1],"r") ) == NULL )
+	if ( ( in = fopen(argv[1],"rb") ) == NULL )
 	{
 		fprintf(stderr,"\033[1;31m\n\0");
 
@@ -27,17 +27,19 @@ int main(int argc, char ** argv)
 
 	}		
 
+	rewind(in);
+
 	fseek(in,-7,SEEK_END);
 
-	rsize_t i = -7;
+	rsize_t i = 0;
 
 	unsigned char c = 0;
 
-	while ( i <= 0 )
+	while ( i < 8 )
 	{
 		c = fgetc(in);
 
-		printf("0x%02x",c);
+		printf("%02x",c);
 
 		i++;
 	}
