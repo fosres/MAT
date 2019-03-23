@@ -143,7 +143,7 @@ int main(int argc, char ** argv)
 
 	if ( argc < 2 )
 	{
-		fprintf(in,"%d: Less than two arguments!\n",__LINE__);
+		fprintf(in,"%llu: Less than two arguments!\n",__LINE__);
 
 		return 1;
 	}
@@ -153,7 +153,7 @@ int main(int argc, char ** argv)
 	{
 		fprintf(stderr,"\033[1;31m\n\0");	
 		
-		fprintf(stdout,"%d: Failed to open %s!\n",__LINE__,argv[argc-1]);
+		fprintf(stdout,"%llu: Failed to open file!\n",__LINE__);
 
 		fprintf(stderr,"\033[0m\n\0");
 
@@ -190,7 +190,7 @@ int main(int argc, char ** argv)
 						
 						fprintf(stderr,"\033[1;31m\n\0");	
 
-						fprintf(stderr,"%d: Error! Column"
+						fprintf(stderr,"%llu: Error! Column"
 								" argument is not an" 
 								" integer!\n",
 						        __LINE__
@@ -233,7 +233,7 @@ int main(int argc, char ** argv)
 	{
 		fprintf(stderr,"\033[1;31m\n\0");	
 		
-		fprintf(stderr,"%d: Error! Failed to %s\n",__LINE__,argv[argc-1]);
+		fprintf(stderr,"%llu: Error! Failed to %s\n",__LINE__,argv[argc-1]);
 
 		fprintf(stderr,"\033[0m\n\0");
 		
