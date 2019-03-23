@@ -22,6 +22,8 @@ rsize_t NUM_HEX_ROWS = 16;
 
 rsize_t NUM_BIN_ROWS = 5;
 
+_Bool bintable_request = 0;
+
 void reverse(unsigned char s[])
 {
   for (int i = 0, j = strlen(s)-1; i < j; i++, j--)
@@ -149,7 +151,7 @@ int main(int argc, char ** argv)
 	}
 
 	
-	if ( ( in = fopen(argv[argc-1],"r") ) == NULL )
+	if ( ( in = fopen(argv[argc-1],"rb") ) == NULL )
 	{
 		fprintf(stderr,"\033[1;31m\n\0");	
 		
@@ -211,9 +213,9 @@ int main(int argc, char ** argv)
 
 			case 0x62:
 				{
-					print_bintable(in,ascii_line,SIZE);
-					
-					return 0;
+					bintable_request = 1;	
+
+					break;
 				}
 
 
@@ -226,7 +228,15 @@ int main(int argc, char ** argv)
 
 	}
 
-	print_hextable(in,ascii_line,SIZE);
+	if ( bintable_request == 1 )
+	{ 
+		print_bintable(in,ascii_line,SIZE);
+	}
+
+	else
+	{
+		print_hextable(in,ascii_line,SIZE);
+	}
 
 	if ( fclose(in) == EOF )
 	{

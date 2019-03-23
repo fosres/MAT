@@ -15,7 +15,7 @@ int main(int argc, char ** argv)
 
 	FILE * in = NULL;
 
-	if ( ( in = fopen(argv[1],"rb") ) == NULL )
+	if ( ( in = fopen(argv[1],"r") ) == NULL )
 	{
 		fprintf(stderr,"\033[1;31m\n\0");
 
