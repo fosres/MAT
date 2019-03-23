@@ -170,8 +170,6 @@ int main(int argc, char ** argv)
 
 	rewind(in);
 
-// insert while loop for command line arguments here
-	
 	while ( *++argv != NULL && **argv == 0x2d )
 	{
 		switch ( *++(*argv)  )
@@ -191,7 +189,8 @@ int main(int argc, char ** argv)
 						fprintf(stderr,"\033[1;31m\n\0");	
 
 						fprintf(stderr,"%llu: Error! Column"
-								" argument is not an" 
+								" argument is not a" 
+								" type of unsigned"
 								" integer!\n",
 						        __LINE__
 						       );
