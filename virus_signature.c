@@ -29,7 +29,7 @@ int main(int argc, char ** argv)
 
 	rewind(in);
 
-	fseek(in,-7,SEEK_END);
+	fseek(in,-8,SEEK_END);
 
 	rsize_t i = 0;
 
