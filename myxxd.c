@@ -6,21 +6,21 @@
 
 Bug: Number of columns == Number of bytes per row!
 
-NUM_HEX_ROWS == (desired number of columns)/2
+NUM_HEX_COLUMNS == (desired number of columns)/2
 
 default number of columns: 16 to make 16 bytes displayed in total per row
 
 So:
 
-NUM_HEX_ROWS == Number of desired columns
+NUM_HEX_COLUMNS == Number of desired columns
 
 Simple! :D
 #endif
-//#define NUM_HEX_ROWS_ORIGINAL 16
+//#define NUM_HEX_COLUMNS_ORIGINAL 16
 
-rsize_t NUM_HEX_ROWS = 16;
+rsize_t NUM_HEX_COLUMNS = 16;
 
-rsize_t NUM_BIN_ROWS = 6;
+rsize_t NUM_BIN_COLUMNS = 6;
 
 _Bool bintable_request = 0;
 
@@ -86,18 +86,18 @@ void print_bintable(FILE * in, unsigned char ASCII[],const rsize_t FILE_SIZE)
 		c = fgetc(in);
 
 
-		if ( (i%NUM_BIN_ROWS != 0) ) 
+		if ( (i%NUM_BIN_COLUMNS != 0) ) 
 			
 		{ 
 		
-			( isprint(c) != 0 ) ? (ASCII[i%NUM_BIN_ROWS] = c) : (ASCII[i%NUM_BIN_ROWS] = 0x2e);
+			( isprint(c) != 0 ) ? (ASCII[i%NUM_BIN_COLUMNS] = c) : (ASCII[i%NUM_BIN_COLUMNS] = 0x2e);
 		}
 		
 		else
 		{
 			printf("%s\n%08x:%c",ASCII,i,0x20); 
 
-			memset_s(ASCII,NUM_BIN_ROWS,0x0,NUM_BIN_ROWS);
+			memset_s(ASCII,NUM_BIN_COLUMNS,0x0,NUM_BIN_COLUMNS);
 		}
 #if 0
 When printing the actual hexadecimal table, 
@@ -123,17 +123,17 @@ void print_hextable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 	{
 		c = fgetc(in);
 
-		if ( (i%NUM_HEX_ROWS != 0) ) 
+		if ( (i%NUM_HEX_COLUMNS != 0) ) 
 			
 		{ 
-			( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
+			( isprint(c) != 0) ? (ASCII[i%NUM_HEX_COLUMNS] = c) : (ASCII[i%NUM_HEX_COLUMNS] = 0x2e);
 		}
 
 		else
 		{
 			 printf("%s\n%08x:%c",ASCII,i,0x20); 
 
-			 memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
+			 memset_s(ASCII,NUM_HEX_COLUMNS,0x0,NUM_HEX_COLUMNS);
 		}
 #if 0
 When printing the actual hexadecimal table, 
@@ -186,7 +186,7 @@ int main(int argc, char ** argv)
 
 	static unsigned char * ascii_line; 
 	
-	ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS+1,sizeof(char));
+	ascii_line = (unsigned char *)calloc(NUM_HEX_COLUMNS+1,sizeof(char));
 
 	rewind(in);
 
@@ -222,13 +222,13 @@ int main(int argc, char ** argv)
 
 
 
-					NUM_HEX_ROWS = (rsize_t)strtol(column_num,NULL,10);
+					NUM_HEX_COLUMNS = (rsize_t)strtol(column_num,NULL,10);
 
 					free(ascii_line);
 
-					ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS,sizeof(char));
+					ascii_line = (unsigned char *)calloc(NUM_HEX_COLUMNS,sizeof(char));
 
-					NUM_BIN_ROWS = (rsize_t)strtol(column_num,NULL,10);
+					NUM_BIN_COLUMNS = (rsize_t)strtol(column_num,NULL,10);
 
 					break;
 				}
@@ -239,7 +239,7 @@ int main(int argc, char ** argv)
 
 					free(ascii_line);
 
-					ascii_line = (unsigned char *)calloc(NUM_BIN_ROWS+1,sizeof(char));
+					ascii_line = (unsigned char *)calloc(NUM_BIN_COLUMNS+1,sizeof(char));
 					
 					break;
 				}
