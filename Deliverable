@@ -1,0 +1,27 @@
+While the \hyperlink{false positive}{ken_quine_generator.c} program was being designed,
+
+the Avast Antivirus Free software was installed on my machine. PCMag rated it the best
+
+average free antivirus software since it could best prevent a brand new virus that has
+
+never been seen before from infecting a host machine. But when I tried to execute the
+
+ken_quine_generator.o executable, the Avast Antivirus detected that the program was
+
+reading its own hexadecimal code, killed the execution of the program, observed its
+
+behavior in a sandbox, and then declared a false alarm. This seriously happened every
+
+time I tried to execute the program. In the end, I regrettably had to uninstall the 
+
+Avast Free Antivirus and replace it with the next best free antivirus according to 
+
+PcMag: Kaspersky Free. An antivirus program against
+
+zero-day attacks must rely on heuristic analysis purely, since there is no possibility
+
+that a virus signature exists in the antivirus's database.  The antivirus company, ESET,
+
+recomm
+
+

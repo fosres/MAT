@@ -77,7 +77,7 @@ void print_bintable(FILE * in, unsigned char ASCII[],const rsize_t FILE_SIZE)
 
 		else
 		{
-			 printf("%s\n%08x:%c",ASCII,i,0x9); 
+			 printf("%s\n%08x:%c",ASCII,i,0x20); 
 
 			 memset_s(ASCII,NUM_BIN_ROWS,0x0,NUM_BIN_ROWS);
 		}
@@ -108,12 +108,12 @@ void print_hextable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 		if ( (i%NUM_HEX_ROWS != 0) ) 
 			
 		{ 
-			isprint(c) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
+			( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
 		}
 
 		else
 		{
-			 printf("%s\n%08x:%c",ASCII,i,0x9); 
+			 printf("%s\n%08x:%c",ASCII,i,0x20); 
 
 			 memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
 		}
@@ -166,9 +166,9 @@ int main(int argc, char ** argv)
 
 	const rsize_t SIZE = ftell(in);
 
-	static unsigned char ascii_line[17];
-
-	ascii_line[16] = 0x0;
+	static unsigned char * ascii_line; 
+	
+	ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS+1,sizeof(char));
 
 	rewind(in);
 
@@ -206,6 +206,10 @@ int main(int argc, char ** argv)
 
 					NUM_HEX_ROWS = (rsize_t)strtol(column_num,NULL,10);
 
+					free(ascii_line);
+
+					ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS,sizeof(char));
+
 					NUM_BIN_ROWS = (rsize_t)strtol(column_num,NULL,10);
 
 					break;
@@ -215,6 +219,10 @@ int main(int argc, char ** argv)
 				{
 					bintable_request = 1;	
 
+					free(ascii_line);
+
+					ascii_line = (unsigned char *)calloc(NUM_BIN_ROWS+1,sizeof(char));
+					
 					break;
 				}
 
