@@ -20,7 +20,7 @@ Simple! :D
 
 rsize_t NUM_HEX_ROWS = 16;
 
-rsize_t NUM_BIN_ROWS = 6;
+rsize_t NUM_BIN_ROWS = 5;
 
 _Bool bintable_request = 0;
 
@@ -106,7 +106,7 @@ do not replace the actual hexadecimal with
 
 0x2e!
 #endif
-		printf("%08s%c",print_binary(c),0x20);
+		printf("%08s%c",print_binary(c),0x9);
 		
 
 		i++;	
@@ -122,16 +122,18 @@ void print_hextable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 	while ( i < FILE_SIZE )
 	{
 		c = fgetc(in);
-
+			
+		( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
+#if 0
 		if ( (i%NUM_HEX_ROWS != 0) ) 
 			
 		{ 
 			( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
 		}
-
-		else
+#endif
+		if ( (i%NUM_HEX_ROWS) == (NUM_HEX_ROWS - 1) )
 		{
-			 printf("%s\n%08x:%c",ASCII,i,0x20); 
+			 printf("%c%s\n%08x:%c",0x20,ASCII,i,0x20); 
 
 			 memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
 		}
@@ -142,7 +144,7 @@ do not replace the actual hexadecimal with
 
 0x2e!
 #endif
-			(i%2 == 0) ? ( printf("%02x",c) ) : printf("%02x%c",c,0x20);
+			(i%2 == 0) ? ( printf("%02x",c) ) : printf("%02x%c",c,0x9);
 		
 
 		i++;	
