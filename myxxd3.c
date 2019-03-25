@@ -130,18 +130,18 @@ void print_hextable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 This printf actually forces printing of ASCII.
 
 #endif	
-//		printf("%c%s",0x9,ASCII);
 
 
-		(i%2 == 0) ? ( printf("%02x",c) ) : ( printf("%02x%c",c,0x9) );
 		
 		( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
 		if ( (i%NUM_HEX_ROWS) == 0 )
 		{
 			 printf("%c%s\n%08x:%c",0x20,ASCII,i,0x20); 
 
-//			 memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
+			 memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
 		}
+		
+		(i%2 == 0) ? ( printf("%02x",c) ) : ( printf("%02x%c",c,0x9) );
 		
 		i++;	
 	}
