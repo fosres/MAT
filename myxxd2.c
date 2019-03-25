@@ -124,19 +124,15 @@ void print_hextable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 		c = fgetc(in);
 			
 		( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
+
 #if 0
 		if ( (i%NUM_HEX_ROWS != 0) ) 
 			
 		{ 
 			( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
 		}
-#endif
-		if ( (i%NUM_HEX_ROWS) == (NUM_HEX_ROWS - 1) )
-		{
-			 printf("%c%s\n%08x:%c",0x20,ASCII,i,0x20); 
 
-			 memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
-		}
+#endif
 #if 0
 When printing the actual hexadecimal table, 
 
@@ -144,8 +140,14 @@ do not replace the actual hexadecimal with
 
 0x2e!
 #endif
-			(i%2 == 0) ? ( printf("%02x",c) ) : printf("%02x%c",c,0x9);
+		(i%2 == 0) ? ( printf("%02x",c) ) : printf("%02x%c",c,0x9);
 		
+		if ( (i%NUM_HEX_ROWS) == 0 )
+		{
+			 printf("%c%s\n%08x:%c",0x20,ASCII,i,0x20); 
+
+			 memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
+		}
 
 		i++;	
 	}

@@ -91,6 +91,7 @@ void print_bintable(FILE * in, unsigned char ASCII[],const rsize_t FILE_SIZE)
 		{ 
 		
 			( isprint(c) != 0 ) ? (ASCII[i%NUM_BIN_COLUMNS] = c) : (ASCII[i%NUM_BIN_COLUMNS] = 0x2e);
+		
 		}
 		
 		else
