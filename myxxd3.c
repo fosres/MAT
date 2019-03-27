@@ -134,7 +134,7 @@ This printf actually forces printing of ASCII.
 
 		
 		( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
-		if ( (i < NUM_HEX_ROWS ) && ( i%NUM_HEX_ROWS == 0 ) )
+		if ( i == 0 )
 		{
 			printf("%08x:%c",i,0x20);
 
