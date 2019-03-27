@@ -134,11 +134,20 @@ This printf actually forces printing of ASCII.
 
 		
 		( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
-		if ( (i%NUM_HEX_ROWS) == 0 )
+		if ( (i < NUM_HEX_ROWS ) && ( i%NUM_HEX_ROWS == 0 ) )
 		{
-			 printf("%c%s\n%08x:%c",0x20,ASCII,i,0x20); 
+			printf("%08x:%c",i,0x20);
 
-			 memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
+		}
+
+		else if ( (i%NUM_HEX_ROWS) == 0 )
+		{
+			
+			 	printf("%c%s\n%08x:%c",0x20,ASCII,i,0x20); 
+			 	
+				memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
+			
+			
 		}
 		
 		(i%2 == 0) ? ( printf("%02x",c) ) : ( printf("%02x%c",c,0x9) );
@@ -184,7 +193,7 @@ int main(int argc, char ** argv)
 
 	static unsigned char * ascii_line; 
 	
-	ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS+1,sizeof(char));
+	ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS+1,sizeof(unsigned char));
 
 	rewind(in);
 
@@ -224,7 +233,7 @@ int main(int argc, char ** argv)
 
 					free(ascii_line);
 
-					ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS,sizeof(char));
+					ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS,sizeof(unsigned char));
 
 					NUM_BIN_ROWS = (rsize_t)strtol(column_num,NULL,10);
 
@@ -237,7 +246,7 @@ int main(int argc, char ** argv)
 
 					free(ascii_line);
 
-					ascii_line = (unsigned char *)calloc(NUM_BIN_ROWS+1,sizeof(char));
+					ascii_line = (unsigned char *)calloc(NUM_BIN_ROWS+1,sizeof(unsigned char));
 					
 					break;
 				}
