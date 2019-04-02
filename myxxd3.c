@@ -132,15 +132,12 @@ This printf actually forces printing of ASCII.
 #endif	
 
 
-		
-		( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
-		if ( i == 0 )
-		{
-			printf("%08x:%c",i,0x20);
-
+		if ( (i%NUM_HEX_ROWS != 0) )
+		{		
+			( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
 		}
 
-		else if ( (i%NUM_HEX_ROWS) == 0 )
+		if ( (i%NUM_HEX_ROWS) == 0 )
 		{
 			
 			 	printf("%c%s\n%08x:%c",0x20,ASCII,i,0x20); 
