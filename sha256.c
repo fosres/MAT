@@ -5,7 +5,7 @@
 
 uint32_t shr_n(uint64_t n, uint32_t x)
 {
-	if ( n >= sizeof(uint32_t) )
+	if ( n >= ( sizeof(uint32_t) << 3 ) )
 	{
 		fprintf(stderr,"\033[1;31m");	
 		fprintf(stderr,"%d: n is larger than size of x\n",__LINE__);	
@@ -18,7 +18,7 @@ uint32_t shr_n(uint64_t n, uint32_t x)
 
 uint32_t rotr_n(uint64_t n, uint32_t x)
 {
-	if ( n >= sizeof(uint32_t) )
+	if ( n >= ( sizeof(uint32_t) << 3 ) )
 	{
 		fprintf(stderr,"\033[1;31m");	
 		fprintf(stderr,"%d: n is larger than size of x\n",__LINE__);	
@@ -26,12 +26,12 @@ uint32_t rotr_n(uint64_t n, uint32_t x)
 		exit(1);
 	}
 
-	return (x >>n ) | ( x >> ( sizeof(uint32_t - n) ) );
+	return (x >> n ) | ( x << ( ( sizeof(uint32_t) << 3) - n) );
 }
 
 uint32_t rotl_n(uint64_t n, uint32_t x)
 {
-	if ( n >= sizeof(uint32_t) )
+	if ( n >= ( sizeof(uint32_t) << 3 ) )
 	{
 		fprintf(stderr,"\033[1;31m");	
 		fprintf(stderr,"%llu: Error!: n is larger than size of x\n",__LINE__);	
@@ -39,12 +39,79 @@ uint32_t rotl_n(uint64_t n, uint32_t x)
 		exit(1);
 	}
 
-	return ( x << n ) | ( x >> sizeof(uint32_t) - n );
+	return ( x << n ) | ( x >> ( sizeof(uint32_t) << 3 ) - n );
 
 }
 
-const unsigned char * padded_msg(const unsigned char * msg,uint64_t msg_maxsize)
+#if 0
+
+The message should be a string of the binary form of the file
+
+You should use "rb" when opening a file
+
+To convert the contents of a file to bit string
+
+#endif
+
+void reverse(unsigned char s[])
 {
+  for (int i = 0, j = strlen(s)-1; i < j; i++, j--)
+  {
+    char temp = s[i];
+
+    s[i] = s[j];
+
+    s[j] = temp;
+  }
+}
+
+unsigned char * print_binary(unsigned char input)
+{
+
+
+  static char s[10];
+
+  char * s_p = &s[0];
+
+  while (input > 0)
+  {
+    *s_p++ = (char)((input&1)+'0');
+
+    input >>= 1;
+  }
+
+  *s_p = '\0';
+  
+  reverse(s);
+
+  return s;
+
+}
+
+#if 0
+
+The unsigned char * msg should actually be a bit string so it
+
+contains nothing but pure 1s and 0s ONLY.
+
+To convert any unsigned char array into this bit string, you must 
+
+use strncat_s. Each char is translated
+
+to an 8-bit string of 1s and 0s. Concatenate each 8-bit string to
+
+dest until 0xff (EOF).
+
+Thus, msg_maxsize is the original size of the char array message
+
+multiplied by 8 (there are 8 bits in a byte) + 1 ( 0x0 NUL byte).
+
+#endif
+
+const unsigned char * padded_msg(const unsigned char * msg, uint64_t msg_maxsize)
+{
+	const uint64_t L = msg_maxsize;	
+	
 	if ( msg_maxsize == 0 )
 	{
 		fprintf(stderr,"\033[1;31m");
@@ -53,11 +120,11 @@ const unsigned char * padded_msg(const unsigned char * msg,uint64_t msg_maxsize)
 		exit(1);
 	}
 
-	if ( ( msg_maxsize << 3 ) >= UINTMAX_MAX )
+	if ( msg_maxsize == UINTMAX_MAX )
 	{
 		
 		fprintf(stderr,"\033[1;31m");
-		fprintf(stderr,"%llu: Error: ( msg_maxsize << 3 ) >= UINTMAX_MAX\n");
+		fprintf(stderr,"%llu: Error: msg_maxsize == UINTMAX_MAX\n");
 		fprintf(stderr,"\033[0m");
 		exit(1);
 	
@@ -86,20 +153,25 @@ const unsigned char * padded_msg(const unsigned char * msg,uint64_t msg_maxsize)
 		
 		
 		
-		fprintf(stderr,"\033[1;31m");
+			fprintf(stderr,"\033[1;31m");
 
-		fprintf(stderr,"%llu: Error: Failed to resize msg\n",__LINE__);	
+			fprintf(stderr,"%llu: Error: Failed to resize msg\n",__LINE__);	
 
-		fprintf(stderr,"\033[0m");
+			fprintf(stderr,"\033[0m");
 
-		exit(1);
+			exit(1);
 
 		}
-
-		strncat_s(msg,msg
 	
 	}
-	
+		strncat_s( msg,msg_maxsize,"1\0",sizeof(unsigned char) );
+		
+		uint64_t K = UINTMAX_MAX;
+
+// when ++K happens the first time, UINTMAX_MAX will be overclocked to 0
+
+		while ( ( L + 1 + ++K ) % 512 == 448 )
+			;
 }
 
 
