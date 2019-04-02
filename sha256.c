@@ -51,19 +51,22 @@ const unsigned char * padded_msg(const unsigned char * msg,uint64_t msg_maxsize)
 		fprintf(stderr,"%llu: Error: msg_maxsize == 0\n");
 		fprintf(stderr,"\033[0m");
 		exit(1);
+	}
+
+	if ( ( msg_maxsize << 3 ) >= UINTMAX_MAX )
+	{
+		
+		fprintf(stderr,"\033[1;31m");
+		fprintf(stderr,"%llu: Error: ( msg_maxsize << 3 ) >= UINTMAX_MAX\n");
+		fprintf(stderr,"\033[0m");
+		exit(1);
+	
 	}	
 	
-	if ( msg_size == UINTMAX_MAX )
-	{
-		fprintf(stderr,"\033[1;31m");
-		fprintf(stderr,"%llu: Error!: msg_size == 2^64\n");
-		fprintf(stderr,"\033[0m");	
-		exit(1);	
-	}	
 	
 	if ( 
 			
-			( strnlen_s(msg,msg_maxsize) == msg_maxsize )
+		( strnlen_s(msg,msg_maxsize) == msg_maxsize )
 			
 	   )
 		
@@ -78,6 +81,8 @@ const unsigned char * padded_msg(const unsigned char * msg,uint64_t msg_maxsize)
 			( ( msg = realloc(msg,msg_maxsize*2) ) == NULL )
 		
 		)
+
+		{
 		
 		
 		
@@ -88,6 +93,10 @@ const unsigned char * padded_msg(const unsigned char * msg,uint64_t msg_maxsize)
 		fprintf(stderr,"\033[0m");
 
 		exit(1);
+
+		}
+
+		strncat_s(msg,msg
 	
 	}
 	

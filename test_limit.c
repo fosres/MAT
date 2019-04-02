@@ -7,5 +7,6 @@ int main(void)
 
 	fprintf(stderr,"\033[1;31m");
 	fprintf(stderr,"Testing\n");
+	fprintf(stderr,"%llu",RSIZE_MAX);
 	fprintf(stderr,"\033[0m");
 }
