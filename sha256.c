@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <string.h>
 
+
 uint32_t shr_n(uint64_t n, uint32_t x)
 {
 	if ( n >= ( sizeof(uint32_t) << 3 ) )
@@ -164,7 +165,17 @@ const unsigned char * padded_msg(const unsigned char * msg, uint64_t msg_maxsize
 		}
 	
 	}
-		strncat_s( msg,msg_maxsize,"1\0",sizeof(unsigned char) );
+#if 0
+
+First calculate L+1+K that makes
+
+the following formula true:
+
+(L + 1 +K ) % 512 == 448
+
+#endif
+
+//		strncat_s( msg,msg_maxsize,"1\0",sizeof(unsigned char) );
 		
 		uint64_t K = UINTMAX_MAX;
 
