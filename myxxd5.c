@@ -168,12 +168,10 @@ This printf actually forces printing of ASCII.
 					
 					u < NUM_HEX_ROWS
 
-					&&
-					
-					( c = fgetc(in) )	
 							
 				      )
 				{
+					( c = fgetc(in) );	
 					
 					if ( isprint(c) )
 					{	
@@ -219,12 +217,9 @@ This printf actually forces printing of ASCII.
 					
 					u < ( i%NUM_HEX_ROWS )
 
-					&&
-					
-					( c = fgetc(in) )	
-							
 				      )
 				{
+					( c = fgetc(in) );	
 					
 					if ( isprint(c) )
 					{	
