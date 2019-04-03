@@ -203,7 +203,7 @@ This printf actually forces printing of ASCII.
 		i++;	
 	}
 
-	if ( i == FILE_SIZE /*&& (i%NUM_HEX_ROWS) != 0 */ )
+	if ( i == FILE_SIZE  )
 	{
 				fputc(0x9,stdout);
 				
