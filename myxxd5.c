@@ -150,7 +150,17 @@ This printf actually forces printing of ASCII.
 				
 				fpos = ftell(in);
 				
-				fseek(in,-NUM_HEX_ROWS,SEEK_CUR);
+				if ( i > NUM_HEX_ROWS )
+				{	
+				
+					fseek(in,-NUM_HEX_ROWS,SEEK_CUR);
+
+				}
+
+				else
+				{
+					fseek(in,0,SEEK_SET);	
+				}
 
 				u = 0;				
 				
@@ -197,7 +207,7 @@ This printf actually forces printing of ASCII.
 
 	if ( i == FILE_SIZE /*&& (i%NUM_HEX_ROWS) != 0 */ )
 	{
-				fputc(0x20,stdout);
+				fputc(0x9,stdout);
 				
 				fpos = ftell(in);
 				
@@ -230,8 +240,6 @@ This printf actually forces printing of ASCII.
 				}
 
 				fseek(in,fpos,SEEK_SET);
-				
-				printf("\n%08x:%c",i,0x20);
 			
 	}
 
