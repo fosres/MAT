@@ -232,11 +232,6 @@ This printf actually forces printing of ASCII.
 				fseek(in,fpos,SEEK_SET);
 				
 				printf("\n%08x:%c",i,0x20);
-#if 0	
-			 	printf("%c%s\n%08x:%c",0x20,ASCII,i,0x20); 
-			 	
-				memset_s(ASCII,NUM_HEX_ROWS,0x0,NUM_HEX_ROWS);
-#endif			
 			
 	}
 
