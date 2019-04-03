@@ -175,14 +175,49 @@ the following formula true:
 
 #endif
 
-//		strncat_s( msg,msg_maxsize,"1\0",sizeof(unsigned char) );
-		
 		uint64_t K = UINTMAX_MAX;
 
 // when ++K happens the first time, UINTMAX_MAX will be overclocked to 0
 
 		while ( ( L + 1 + ++K ) % 512 == 448 )
 			;
+
+		static unsigned char L_string[65];
+
+		static unsigned char L_bitstring[65];
+
+		snprintf_s(L_string,65*sizeof(unsigned char),"%llu",L);
+
+		rsize_t i = 0;
+
+		while ( i < 65 && L_string[i] != 0x0 )
+		{
+			strncat_s(
+					L_bitstring,
+					65*sizeof(unsigned char),
+					print_binary(L_string[i]),
+					( 65*sizeof(unsigned char) ) 
+					
+					- 
+					
+					strnlen_s(L_bitstring,65*sizeof(unsigned char)) - 1
+				 );
+						
+			i++;		
+		}
+		
+		msg_size = L + 1 + K + 64; //64 is for the 64 bitstring representation of L
+
+#if 0
+The new msg will be a multiple
+
+of 512 bits.
+#endif
+
+		free(msg);
+
+		msg = (unsigned char *)calloc( msg_size,sizeof(unsigned char) );
+		
 }
 
 
