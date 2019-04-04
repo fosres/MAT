@@ -7,12 +7,13 @@ RFC (Request For Comments) 6234.
 #endif
 
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 
 
-static uint32_t hex_table[64] =
+static uint32_t msg_schedule[64] =
 {
 
 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,      
@@ -134,6 +135,51 @@ unsigned char * print_binary(unsigned char input)
 
 }
 
+
+void * strtobitstr(unsigned char * bitstr, unsigned char * msg, const rsize_t * BIT_SIZE, const rsize_t MSG_SIZE)
+{
+
+	const rsize_t BITSTRSIZE = ( MSG_SIZE << 3 );
+
+	*BIT_SIZE = BITSTRSIZE;
+
+	bitstr
+		
+	=
+	
+	(unsigned char)calloc(
+				BITSTRSIZE,
+
+				sizeof(unsigned char)
+
+				);				
+			
+			
+	while ( *msg != 0x0 )
+	{
+		strncat_s(
+				bitstr, 
+				
+				BITSTRSIZE, 
+				
+				print_binary(*msg),
+				
+				BITSTRSIZE
+
+				-
+
+				strnlen_s( bitstr, BITSTRSIZE )	- 1
+
+			 );			
+		
+		msg++;
+
+	}
+
+	return bitstr;
+		
+}	
+
 #if 0
 
 The unsigned char * msg should actually be a bit string so it
@@ -154,28 +200,11 @@ multiplied by 8 (there are 8 bits in a byte) + 1 ( 0x0 NUL byte).
 
 #endif
 
-const unsigned char * padded_msg(const unsigned char * msg, uint64_t msg_maxsize)
+void pad_msg(unsigned char ** msg_p_p, rsize_t msg_maxsize)
 {
-	const uint64_t L = msg_maxsize;	
-	
-	if ( msg_maxsize == 0 )
-	{
-		fprintf(stderr,"\033[1;31m");
-		fprintf(stderr,"%llu: Error: msg_maxsize == 0\n");
-		fprintf(stderr,"\033[0m");
-		exit(1);
-	}
 
-	if ( msg_maxsize == UINTMAX_MAX )
-	{
-		
-		fprintf(stderr,"\033[1;31m");
-		fprintf(stderr,"%llu: Error: msg_maxsize == UINTMAX_MAX\n");
-		fprintf(stderr,"\033[0m");
-		exit(1);
 	
-	}	
-	
+	const uint64_t L = strnlen_s(msg,msg_maxsize);	
 	
 	if ( 
 			
@@ -216,7 +245,7 @@ First calculate L+1+K that makes
 
 the following formula true:
 
-(L + 1 +K ) % 512 == 448
+(L + 1 + K ) % 512 == 448
 
 #endif
 
@@ -227,20 +256,20 @@ the following formula true:
 		while ( ( L + 1 + ++K ) % 512 == 448 )
 			;
 
-		static unsigned char L_string[65];
+		static unsigned char L_hexstring[17];
 
 		static unsigned char L_bitstring[65];
 
-		snprintf_s(L_string,65*sizeof(unsigned char),"%llu",L);
+		snprintf_s(L_hexstring,17*sizeof(unsigned char),"%.16x",L);
 
 		rsize_t i = 0;
 
-		while ( i < 65 && L_string[i] != 0x0 )
+		while ( i < 17 && L_hexstring[i] != 0x0 )
 		{
 			strncat_s(
 					L_bitstring,
 					65*sizeof(unsigned char),
-					print_binary(L_string[i]),
+					print_binary(L_hexstring[i]),
 					( 65*sizeof(unsigned char) ) 
 					
 					- 
@@ -251,11 +280,16 @@ the following formula true:
 			i++;		
 		}
 		
-		msg_size = L + 1 + K + 65 * sizeof(unsigned char); 
-		
-// The first 64 is for the 64 bitstring representation of L.
 
-// The 65th unsigned char byte appended is for the NUL byte.
+#if 0
+The 1 is for the "1" that has to be appended immediately after the
+
+original bitstring of the input data.	
+
+The first 64 is for the 64 bitstring representation of L.
+
+The 65th unsigned char byte appended is for the NUL byte.
+#endif
 
 #if 0
 The new msg will be a multiple
@@ -265,7 +299,10 @@ of 512 bits.
 
 		free(msg);
 
+		msg_size = L + 1 + K + 65 * sizeof(unsigned char); 
+
 		msg = (unsigned char *)calloc( msg_size,sizeof(unsigned char) );
+
 
 		strncat_s(
 				msg,
@@ -277,19 +314,51 @@ of 512 bits.
 
 				strnlen_s(msg,msg_size) - 1
 			 );
-
-		unsigned char * K_ap = msg + strnlen_s(msg,msg_size);
+		
+		unsigned char * msg_p = msg + strnlen_s(msg,msg_size);
 		
 		i = 0;
 
+
 		while ( i < K )
 		{
-			*K_ap++ = 0x30;
+			*msg_p++ = 0x30;
 			
 			i++;
-		}	
+		}
+#if 0
+Now append the 64-bitstring that
+
+represents L. The very last char
+
+in msg should always be the NUL
+
+byte (0x0).
+#endif
+
+		i = 0;
 		
-		return msg;		
+		static unsigned char * L_bitstring_p; 
+		
+		L_bitstring_p = L_bitstring;
+
+		while ( i < 64 )
+		{
+			*msg_p++ = *L_bitstring_p++
+
+			i++;
+		}
+#if 0
+
+The purpose of message padding is to make 
+	 
+the total length of a padded message a 
+
+multiple of 512 for SHA-224 and SHA-256.
+
+#endif		
+		assert(strnlen_s(msg,msg_size) % 512 == 0);		
+		
 }
 
 uint32_t  CH( uint32_t x, uint32_t y, uint32_t z)
@@ -327,9 +396,105 @@ uint32_t SSIG1(uint32_t x)
 
 }
 
-int main(void)
+int main(int argc, char ** argv)
 {
+	static unsigned char * input;	
 	
+	if ( argc != 2 )
+	{
+		fprintf("\033[1;31m");
+		
+		fprintf(
+			
+			"%llu: Error: sha256 ([filename]/[input-string-here])"
+				
+			"\nMissing input argument.",__LINE__
+			
+		       );
+
+		fprintf("\033[0m");
+
+		exit(1);
+	}	
+
+	FILE * in = NULL;
+
+#if 0
+
+If the following if statement is
+
+true, the input is an stdin input
+
+
+string.
+
+#endif
+
+	if ( ( in = fopen(argv[1],"rb") ) == NULL )
+	{
+		input 
+			
+		= 
+		
+		(unsigned char *)
+		
+		calloc(
+			
+			strnlen_s( argv[1], LONG_MAX*sizeof(unsigned char) ),
+
+			sizeof(unsigned char)
+
+		      );			
+	
+	}
+
+	else // It's a filename
+	{
+		fseek(in,0,SEEK_END);	
+		
+		const rsize_t FILE_SIZE = ftell(in) + 1;
+
+		rewind(in);
+		
+		input 
+			
+		= 
+		
+		(unsigned char *)calloc(
+				
+					FILE_SIZE,
+					
+					sizeof(unsigned char)
+
+					);
+
+		fread(		
+				
+				input,
+				
+				sizeof(unsigned char)*FILE_SIZE,
+				
+				sizeof(unsigned char),
+				
+				in
+				
+		     );		
+						
+	
+	}
+
+	static unsigned char * bitstring;
+
+	rsize_t BITSTRING_size = 0;
+
+	strtobitstr( bitstring, input, &BITSTRING_SIZE, FILE_SIZE );
+
+	free(input);
+
+	pad_msg(&bitstring, FILE_SIZE)
+
+
+
 #if 0
 These are the initial output values
 
@@ -355,6 +520,20 @@ input is absolutely empty.
 		
 		0x5be0cd19	
 	};
+
+	static unsigned char * M[17];
+
+	M[16] = NULL;
+
+	rsize_t m_i = 0;
+
+	while ( m_i < 16 )
+	{
+		M[m_i] = 
+		m_i++;
+	}
+
+	free(bitstring);
 
 	return 0;
 }
