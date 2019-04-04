@@ -190,6 +190,8 @@ This printf actually forces printing of ASCII.
 		(i%2 == 0) ? ( printf("%02x",c) ) : ( printf("%02x%c",c,0x20) );
 		
 		i++;	
+
+		// Bug: Write code to place ff and extra spaces to align last ASCII line here
 	}
 
 	printf("%02x",0xff); //EOF reached
