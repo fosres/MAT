@@ -195,10 +195,10 @@ This printf actually forces printing of ASCII.
 	if ( i == FILE_SIZE  )
 	{
 
-				rsize_t space_align = i;
+				rsize_t tab_align = i;
 
-				while ( (space_align%NUM_HEX_ROWS)  != 0)
-				{	fputc(0x20,stdout); space_align++;	}
+				while ( (tab_align%(NUM_HEX_ROWS/8))  != 0)
+				{	fputc(0x9,stdout); tab_align++;	}
 
 				fpos = ftell(in);
 				
