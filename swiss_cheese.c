@@ -1,5 +1,1 @@
-I like cookies.
-
-I like pie.
-
-I like cake.
+I like cookie.
