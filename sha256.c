@@ -200,15 +200,16 @@ multiplied by 8 (there are 8 bits in a byte) + 1 ( 0x0 NUL byte).
 
 #endif
 
-void pad_msg(unsigned char ** msg_p_p, rsize_t msg_maxsize)
+void pad_msg(unsigned char ** msg, rsize_t msg_maxsize)
 {
 
 	
-	const uint64_t L = strnlen_s(msg,msg_maxsize);	
-	
+	const uint64_t L = strnlen_s(*msg,msg_maxsize);	
+
+#if 0	
 	if ( 
 			
-		( strnlen_s(msg,msg_maxsize) == msg_maxsize )
+		( strnlen_s(*msg,msg_maxsize) == msg_maxsize )
 			
 	   )
 		
@@ -239,6 +240,10 @@ void pad_msg(unsigned char ** msg_p_p, rsize_t msg_maxsize)
 		}
 	
 	}
+
+#endif
+
+
 #if 0
 
 First calculate L+1+K that makes
@@ -264,7 +269,7 @@ the following formula true:
 
 		rsize_t i = 0;
 
-		while ( i < 17 && L_hexstring[i] != 0x0 )
+		while ( i < 16 && L_hexstring[i] != 0x0 )
 		{
 			strncat_s(
 					L_bitstring,
@@ -297,25 +302,25 @@ The new msg will be a multiple
 of 512 bits.
 #endif
 
-		free(msg);
+		free(*msg); //get rid of old allocated data for new dynamic msg array
 
 		msg_size = L + 1 + K + 65 * sizeof(unsigned char); 
 
-		msg = (unsigned char *)calloc( msg_size,sizeof(unsigned char) );
+		*msg = (unsigned char *)calloc( msg_size,sizeof(unsigned char) );
 
 
 		strncat_s(
-				msg,
+				*msg,
 				msg_size,
 				"1\0",
 				msg_size
 
 				-
 
-				strnlen_s(msg,msg_size) - 1
+				strnlen_s(*msg,msg_size) - 1
 			 );
 		
-		unsigned char * msg_p = msg + strnlen_s(msg,msg_size);
+		unsigned char * msg_p = *msg + strnlen_s(*msg,msg_size);
 		
 		i = 0;
 
