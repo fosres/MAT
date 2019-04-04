@@ -199,21 +199,15 @@ This printf actually forces printing of ASCII.
 		if ( i == FILE_SIZE )
 		{
 			
-			printf("%08s",print_binary(0xff));	
+			printf("%08s%c",print_binary(0xff),0x20);	
 			
 			rsize_t index = i;
 
 			while ( index % NUM_BIN_ROWS != 0 ) 
 			{
-				(index%2 == 0) 
 					
-					? 
+				printf("%*c",NUM_BIN_ROWS-1,0x20);
 					
-					( printf("%*c%c%c",NUM_BIN_ROWS+1,0x20,0x20,0x20) ) 
-					
-					: 
-					
-					( printf("%c%c",0x20,0x20) );
 				
 				index++;
 			}
