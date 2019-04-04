@@ -402,7 +402,13 @@ sixteen-bit words.
 				
 				index++;
 			}
+#if 0
+The following backspace 
 
+(0x8) is supposed to align
+
+the last line perfectly.
+#endif
 			fputc(0x8,stdout);
 
 
