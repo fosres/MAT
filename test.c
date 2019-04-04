@@ -1,9 +1,9 @@
 #include <stdio.h>
 int main(void)
 {
-	u_char a = 0x30;
+	uint64_t a = ~0;
 
-	putc(a,stdout);
+	printf("0x%.16x\n",a);
 
 	return 0;
 }
