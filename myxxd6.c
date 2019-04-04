@@ -356,7 +356,7 @@ int main(int argc, char ** argv)
 	{
 		fprintf(stderr,"\033[1;31m\n\0");	
 		
-		fprintf(stderr,"%llu: Error! Failed to %s\n",__LINE__,argv[argc-1]);
+		fprintf(stderr,"%llu: Error! Failed to open %s\n",__LINE__,argv[argc-1]);
 
 		fprintf(stderr,"\033[0m\n\0");
 		
