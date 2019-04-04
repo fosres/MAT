@@ -13,6 +13,26 @@ RFC (Request For Comments) 6234.
 #include <string.h>
 
 
+static uint32_t H[8] =
+{
+		0x6a09e667,      
+		
+		0xbb67ae85,      
+		
+		0x3c6ef372,      
+		
+		0xa54ff53a,      
+		
+		0x510e527f,      
+		
+		0x9b05688c,      
+		
+		0x1f83d9ab,      
+		
+		0x5be0cd19	
+};
+
+
 static uint32_t msg_schedule[64] =
 {
 
@@ -456,6 +476,10 @@ string.
 
 	static unsigned char * bitstring;
 
+	static unsigned char * bitstring_p;
+
+	bitstring_p = bitstring;
+
 	rsize_t BITSTRING_size = 0;
 
 	strtobitstr( bitstring, input, &BITSTRING_SIZE, FILE_SIZE );
@@ -473,34 +497,21 @@ of the SHA-256 hash algorithm if the
 
 input is absolutely empty.
 #endif	
-	static uint32_t H[8] =
-	{
-		0x6a09e667,      
-		
-		0xbb67ae85,      
-		
-		0x3c6ef372,      
-		
-		0xa54ff53a,      
-		
-		0x510e527f,      
-		
-		0x9b05688c,      
-		
-		0x1f83d9ab,      
-		
-		0x5be0cd19	
-	};
 
 	static unsigned char * M[17];
 
 	M[16] = NULL;
+	
+	rsize_t i = 0;
 
 	rsize_t m_i = 0;
 
 	while ( m_i < 16 )
 	{
-		M[m_i] = 
+		M[m_i] = bitstring_p;
+
+		bitstring_p += 32;
+
 		m_i++;
 	}
 
