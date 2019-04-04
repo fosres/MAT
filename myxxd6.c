@@ -166,7 +166,7 @@ This printf actually forces printing of ASCII.
 				
 				while ( 
 					
-					u <= NUM_HEX_ROWS
+					u < NUM_HEX_ROWS
 
 							
 				      )
@@ -186,7 +186,7 @@ This printf actually forces printing of ASCII.
 					u++;
 				}
 
-				fseek(in,fpos,SEEK_SET);
+	//			fseek(in,fpos,SEEK_SET);
 				
 				printf("\n%08x:%c",i,0x20);
 			
