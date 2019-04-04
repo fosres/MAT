@@ -184,7 +184,9 @@ void * strtobitstr(unsigned char * bitstr, unsigned char * msg, const rsize_t * 
 
 The unsigned char * msg should actually be a bit string so it
 
-contains nothing but pure 1s and 0s ONLY.
+contains nothing but pure 1s and 0s ONLY (with last char as NUL
+		
+byte).
 
 To convert any unsigned char array into this bit string, you must 
 
@@ -206,42 +208,6 @@ void pad_msg(unsigned char ** msg, rsize_t msg_maxsize)
 	
 	const uint64_t L = strnlen_s(*msg,msg_maxsize);	
 
-#if 0	
-	if ( 
-			
-		( strnlen_s(*msg,msg_maxsize) == msg_maxsize )
-			
-	   )
-		
-	{
-		if 
-		(
-		  
-			( ( msg_maxsize*2) < msg_maxsize ) 
-
-			|| 
-		
-			( ( msg = realloc(msg,msg_maxsize*2) ) == NULL )
-		
-		)
-
-		{
-		
-		
-		
-			fprintf(stderr,"\033[1;31m");
-
-			fprintf(stderr,"%llu: Error: Failed to resize msg\n",__LINE__);	
-
-			fprintf(stderr,"\033[0m");
-
-			exit(1);
-
-		}
-	
-	}
-
-#endif
 
 
 #if 0
@@ -340,12 +306,11 @@ in msg should always be the NUL
 
 byte (0x0).
 #endif
-
-		i = 0;
-		
 		static unsigned char * L_bitstring_p; 
 		
 		L_bitstring_p = L_bitstring;
+
+		i = 0;
 
 		while ( i < 64 )
 		{
@@ -362,7 +327,7 @@ the total length of a padded message a
 multiple of 512 for SHA-224 and SHA-256.
 
 #endif		
-		assert(strnlen_s(msg,msg_size) % 512 == 0);		
+		assert(strnlen_s(*msg,msg_size) % 512 == 0);		
 		
 }
 
@@ -496,7 +461,7 @@ string.
 
 	free(input);
 
-	pad_msg(&bitstring, FILE_SIZE)
+	pad_msg(&bitstring, FILE_SIZE);
 
 
 
