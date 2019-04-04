@@ -20,7 +20,7 @@ Simple! :D
 
 rsize_t NUM_HEX_ROWS = 16;
 
-rsize_t NUM_BIN_ROWS = 5;
+rsize_t NUM_BIN_ROWS = 6;
 
 _Bool bintable_request = 0;
 
@@ -106,7 +106,7 @@ do not replace the actual hexadecimal with
 
 0x2e!
 #endif
-		printf("%08s%c",print_binary(c),0x9);
+		printf("%08s%c",print_binary(c),0x20);
 		
 
 		i++;	
