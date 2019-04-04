@@ -166,7 +166,7 @@ This printf actually forces printing of ASCII.
 				
 				while ( 
 					
-					u < NUM_HEX_ROWS
+					u <= NUM_HEX_ROWS
 
 							
 				      )
