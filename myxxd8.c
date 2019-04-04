@@ -197,7 +197,7 @@ This printf actually forces printing of ASCII.
 
 				rsize_t tab_align = i;
 
-				while ( (tab_align%(NUM_HEX_ROWS/8))  != 0)
+				while ( (tab_align%(NUM_HEX_ROWS))  != 0)
 				{	fputc(0x9,stdout); tab_align++;	}
 
 				fpos = ftell(in);
