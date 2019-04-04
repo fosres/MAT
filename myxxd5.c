@@ -150,7 +150,7 @@ This printf actually forces printing of ASCII.
 				
 				fpos = ftell(in);
 				
-				if ( i > NUM_HEX_ROWS )
+				if ( i >= NUM_HEX_ROWS )
 				{	
 				
 					fseek(in,-NUM_HEX_ROWS-1,SEEK_CUR);
