@@ -7,5 +7,9 @@ int main(void)
 
 	printf("%-10d\n",3);
 
+	(3 % 3) != 0 ? ( printf("Yes") ): ( putchar(0x0) );
+
+	putchar(0x30);
+
 	return 0;
 }

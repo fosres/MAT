@@ -192,15 +192,39 @@ This printf actually forces printing of ASCII.
 		i++;	
 
 		// Bug: Write code to place ff and extra spaces to align last ASCII line here
+		
+		if ( i == FILE_SIZE )
+		{
+			
+			printf("%02x",0xff);	
+			
+			rsize_t index = i;
+
+			while ( index % NUM_HEX_ROWS != 0 ) 
+			{
+				(index%2 == 0) 
+					
+					? 
+					
+					( printf("%c%c%c",0x20,0x20,0x20) ) 
+					
+					: 
+					
+					( printf("%c%c",0x20,0x20) );
+				
+				index++;
+			}
+
+		}
 	}
 
-	printf("%02x",0xff); //EOF reached
+//	printf("%02x",0xff); //EOF reached
 
 	if ( i == FILE_SIZE  )
 	{
 
 				rsize_t space_align = i;
-
+#if 0
 				while ( (space_align%(NUM_HEX_ROWS))  != 0)
 				{	
 					fputc(0x20,stdout); 
@@ -211,7 +235,7 @@ This printf actually forces printing of ASCII.
 
 					space_align += 2;	
 				}
-
+#endif
 				fpos = ftell(in);
 				
 				fseek(in,-(i%NUM_HEX_ROWS),SEEK_CUR);
