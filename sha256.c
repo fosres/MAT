@@ -372,17 +372,18 @@ int main(int argc, char ** argv)
 	
 	if ( argc != 2 )
 	{
-		fprintf("\033[1;31m");
+		fprintf(stdout, "\033[1;31m");
 		
 		fprintf(
-			
+			stdout,
+
 			"%llu: Error: sha256 ([filename]/[input-string-here])"
 				
 			"\nMissing input argument.",__LINE__
 			
 		       );
 
-		fprintf("\033[0m");
+		fprintf(stdout, "\033[0m");
 
 		exit(1);
 	}	
@@ -461,7 +462,7 @@ string.
 
 	free(input);
 
-	pad_msg(&bitstring, FILE_SIZE);
+	pad_msg(&bitstring, BITSTRING_SIZE);
 
 
 
