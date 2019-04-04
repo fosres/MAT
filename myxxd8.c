@@ -4,6 +4,14 @@
 #include <string.h>
 #if 0
 
+Bug: When Number of characters in row
+
+is equal to NUM_HEX_ROWS, the last f
+
+in 0xff is deleted and replaced with
+
+a period.
+
 Bug: Number of columns == Number of bytes per row!
 
 NUM_HEX_ROWS == (desired number of columns)/2
@@ -409,7 +417,17 @@ The following backspace
 
 the last line perfectly.
 #endif
-			fputc(0x8,stdout);
+			if ( NUM_HEX_ROWS % 2 == 0 )
+			{	
+				fputc(0x8,stdout);
+			}
+
+			else
+			{
+				fputc(0x8,stdout);
+
+				fputc(0x8,stdout);
+			}
 
 
 		}
