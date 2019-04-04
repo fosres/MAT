@@ -192,12 +192,14 @@ This printf actually forces printing of ASCII.
 		i++;	
 	}
 
+	printf("%02x",0xff); //EOF reached
+
 	if ( i == FILE_SIZE  )
 	{
 
-				rsize_t tab_align = i;
+				rsize_t space_align = i;
 
-				while ( (tab_align%(NUM_HEX_ROWS))  != 0)
+				while ( (space_align%(NUM_HEX_ROWS))  != 0)
 				{	
 					fputc(0x20,stdout); 
 					
@@ -205,7 +207,7 @@ This printf actually forces printing of ASCII.
 					
 					fputc(0x20,stdout);
 
-					tab_align++;	
+					space_align += 2;	
 				}
 
 				fpos = ftell(in);
