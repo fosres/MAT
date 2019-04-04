@@ -1,1 +1,1 @@
-I like cookie.
+I like cookies.

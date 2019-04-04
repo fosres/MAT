@@ -356,15 +356,49 @@ This printf actually forces printing of ASCII.
 
 			while ( index % NUM_HEX_ROWS != 0 ) 
 			{
+				
+#if 0
+The first two %cs in
+
+the first conditional of
+
+the ? statement are for
+
+the two hex characters for
+
+a column.
+
+The last %c is for the space
+
+that is between hexadecimal
+
+sixteen-bit word.
+
+The first two %cs inthe first conditional of
+
+the ? statement are for
+
+the two hex characters for
+
+a column.
+
+The last %c is for the space
+
+that is between hexadecimal
+
+sixteen-bit words.
+
+#endif	
+				
 				(index%2 == 0) 
 					
 					? 
 					
-					( printf("%c%c%c",0x20,0x20,0x20) ) 
+					( printf("%c%c",0x20,0x20) ) 
 					
 					: 
 					
-					( printf("%c%c",0x20,0x20) );
+					( printf("%c%c%c",0x20,0x20,0x20) );
 				
 				index++;
 			}
