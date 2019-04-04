@@ -113,6 +113,166 @@ do not replace the actual hexadecimal with
 	}
 
 }
+
+void print_bintable2(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
+{
+	rsize_t i = 0;
+	
+	rsize_t u = 0;
+
+	unsigned long fpos = 0;
+
+	rsize_t j = 0; //need this to create printable ASCII in output
+
+	unsigned char c = 0;
+
+	while ( i < FILE_SIZE )
+	{
+		c = fgetc(in);
+		
+#if 0
+
+This printf actually forces printing of ASCII.
+
+#endif	
+
+		if ( i == 0 )
+		{ printf("%08x:%c",i,0x20); }
+
+		else if ( (i%NUM_BIN_ROWS) == 0  )
+		{
+				fputc(0x20,stdout);
+				
+				if ( i >= NUM_BIN_ROWS )
+				{	
+				
+					fseek(in,-NUM_BIN_ROWS-1,SEEK_CUR);
+
+				}
+
+				else
+				{
+					fseek(in,0,SEEK_SET);	
+				}
+
+				u = 0;				
+				
+				while ( 
+					
+					u < NUM_BIN_ROWS
+
+							
+				      )
+				{
+					( c = fgetc(in) );	
+					
+					if ( isprint(c) )
+					{	
+						fputc(c,stdout);
+					}
+
+					else
+					{
+						fputc(0x2e,stdout);
+					}
+
+					u++;
+				}
+
+				c = fgetc(in); //catch up to latest row
+
+
+				
+				printf("\n%08x:%c",i,0x20);
+			
+		}
+
+		printf("%08s%c",print_binary(c),0x20);		
+
+#if 0	
+		(i%2 == 0) ? ( printf("%08s%c",print_binary(c),0x20) ) : ( printf("%08s%c",print_binary(c),0x20) );
+#endif		
+		i++;	
+
+		// Bug: Write code to place ff and extra spaces to align last ASCII line here
+		
+		if ( i == FILE_SIZE )
+		{
+			
+			printf("%08s",print_binary(0xff));	
+			
+			rsize_t index = i;
+
+			while ( index % NUM_BIN_ROWS != 0 ) 
+			{
+				(index%2 == 0) 
+					
+					? 
+					
+					( printf("%c%c%c",0x20,0x20,0x20) ) 
+					
+					: 
+					
+					( printf("%c%c",0x20,0x20) );
+				
+				index++;
+			}
+
+		}
+	}
+
+//	printf("%02x",0xff); //EOF reached
+
+	if ( i == FILE_SIZE  )
+	{
+
+				rsize_t space_align = i;
+#if 0
+				while ( (space_align%(NUM_BIN_ROWS))  != 0)
+				{	
+					fputc(0x20,stdout); 
+					
+					fputc(0x20,stdout); 
+					
+					fputc(0x20,stdout);
+
+					space_align += 2;	
+				}
+#endif
+				fpos = ftell(in);
+				
+				fseek(in,-(i%NUM_BIN_ROWS),SEEK_CUR);
+
+				u = 0;				
+				
+				while ( 
+					
+					u <= ( i%NUM_BIN_ROWS )
+
+				      )
+				{
+					( c = fgetc(in) );	
+					
+					if ( isprint(c) )
+					{	
+						fputc(c,stdout);
+					}
+
+					else
+					{
+						fputc(0x2e,stdout);
+					}
+
+					u++;
+				}
+
+				fseek(in,fpos,SEEK_SET);
+			
+	}
+
+}
+
+
 void print_hextable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 {
 	rsize_t i = 0;
@@ -375,7 +535,7 @@ int main(int argc, char ** argv)
 
 	if ( bintable_request == 1 )
 	{ 
-		print_bintable(in,ascii_line,SIZE);
+		print_bintable2(in,ascii_line,SIZE);
 	}
 
 	else
