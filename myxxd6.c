@@ -148,7 +148,6 @@ This printf actually forces printing of ASCII.
 		{
 				fputc(0x20,stdout);
 				
-				fpos = ftell(in);
 				
 				if ( i >= NUM_HEX_ROWS )
 				{	
@@ -186,7 +185,9 @@ This printf actually forces printing of ASCII.
 					u++;
 				}
 
-	//			fseek(in,fpos,SEEK_SET);
+				c = fgetc(in); //catch up to latest row
+
+
 				
 				printf("\n%08x:%c",i,0x20);
 			
