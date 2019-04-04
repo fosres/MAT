@@ -12,7 +12,13 @@ RFC (Request For Comments) 6234.
 #include <stdint.h>
 #include <string.h>
 
+#if 0
 
+These are the initial
+
+Hash values. 
+
+#endif
 static uint32_t H[8] =
 {
 		0x6a09e667,      
@@ -488,15 +494,6 @@ string.
 
 	pad_msg(&bitstring, BITSTRING_SIZE);
 
-
-
-#if 0
-These are the initial output values
-
-of the SHA-256 hash algorithm if the
-
-input is absolutely empty.
-#endif	
 
 	static unsigned char * M[17];
 
