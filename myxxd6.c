@@ -135,18 +135,15 @@ This printf actually forces printing of ASCII.
 
 #endif	
 
-#if 0
-		if ( (i%NUM_HEX_ROWS != 0) )
-		{		
-			( isprint(c) != 0) ? (ASCII[i%NUM_HEX_ROWS] = c) : (ASCII[i%NUM_HEX_ROWS] = 0x2e);
-		}
-#endif
 		if ( i == 0 )
 		{ printf("%08x:%c",i,0x20); }
 
 		else if ( (i%NUM_HEX_ROWS) == 0  )
 		{
-				fputc(0x20,stdout);
+				rsize_t tab_align = 0x9;
+				
+				while ( tab_align % (NUM_HEX_ROWS/2) == 0 )	
+				fputc(0x9,stdout);
 				
 				
 				if ( i >= NUM_HEX_ROWS )
