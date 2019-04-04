@@ -403,6 +403,8 @@ sixteen-bit words.
 				index++;
 			}
 
+			fputc(0x8,stdout);
+
 
 		}
 	}
