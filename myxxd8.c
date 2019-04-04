@@ -209,7 +209,7 @@ This printf actually forces printing of ASCII.
 					
 					? 
 					
-					( printf("%c%c%c",0x20,0x20,0x20) ) 
+					( printf("%*c%c%c",NUM_BIN_ROWS+1,0x20,0x20,0x20) ) 
 					
 					: 
 					
