@@ -153,7 +153,7 @@ This printf actually forces printing of ASCII.
 				if ( i > NUM_HEX_ROWS )
 				{	
 				
-					fseek(in,-NUM_HEX_ROWS,SEEK_CUR);
+					fseek(in,-NUM_HEX_ROWS-1,SEEK_CUR);
 
 				}
 
