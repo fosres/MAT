@@ -39,7 +39,7 @@ static uint32_t H[8] =
 };
 
 
-static uint32_t msg_schedule[64] =
+static uint32_t K[64] =
 {
 
 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,      
@@ -486,7 +486,7 @@ string.
 
 	bitstring_p = bitstring;
 
-	rsize_t BITSTRING_size = 0;
+	rsize_t BITSTRING_SIZE = 0;
 
 	strtobitstr( bitstring, input, &BITSTRING_SIZE, FILE_SIZE );
 
@@ -494,25 +494,148 @@ string.
 
 	pad_msg(&bitstring, BITSTRING_SIZE);
 
+	static uint32_t * W[65];
+	
+	W[64] = 0x0;
 
-	static unsigned char * M[17];
+	uint32_t a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0;
 
-	M[16] = NULL;
+	uint32_t T1 = 0, T2 = 0;
+
+	const static rsize_t BITSTRING_BLOCKS_SIZE = BITSTRING_SIZE/512+1;
+
+	static uint8_t * bitstring_blocks
+
+	=
+
+	(uint8_t *)calloc(BITSTRING_BLOCKS_SIZE,sizeof(uint8_t));
+
+	static uint8_t * bitstring_blocks_p
+
+	=
+
+	bitstring_blocks;
+	
+	uint8_t w_temp[33];
 	
 	rsize_t i = 0;
 
-	rsize_t m_i = 0;
+#if 0
 
-	while ( m_i < 16 )
+Store memory address of
+
+every 512th char in the
+
+bitstring array.
+
+Starting from the 0th
+
+element.
+
+#endif
+
+	while ( i < BITSTRING_BLOCKS_SIZE )
 	{
-		M[m_i] = bitstring_p;
+		bitstring_blocks[i] = bitstring_p;
 
-		bitstring_p += 32;
+		i++;
 
-		m_i++;
+		bitstring_p += 512;
+
 	}
 
+	bitstring_p = bitstring;
+
+	rsize_t t = 0;
+
+	while ( i <  BITSTRING_BLOCKS_SIZE )
+	{
+		bitstring_p = bitstring_blocks[i];
+		
+		while ( t < 16 )
+		{
+			snprintf_s(w_temp,33,"%032s",bitstring_p);	
+			
+			W[t] = (uint32_t)strtol(w_temp,NULL,2);
+
+			bitstring_p += 32;
+
+			t++;
+		}
+
+		while ( t < 64 )
+		{
+			W[t] = SSIG1(W[t-2]) + W[t-7] + SSIG0(W[t-15]) + W[t-16];
+
+			t++;
+		}
+
+		a = H[0];
+
+		b = H[1];
+
+		c = H[2];
+
+		d = H[3];
+
+		e = H[4];
+
+		f = H[5];
+
+		g = H[6];
+
+		h = H[7];
+
+		t = 0;
+
+		while ( t < 64 )
+		{
+			T1 = h + BSIG1(e) + CH(e,f,g) + K[t] + W[t];
+
+			T2 = BSIG0(a) + MAJ(a,b,c);
+
+			h = g;
+
+			g = f;
+
+			f = e;
+
+			e = d + T1;
+
+			d = c;
+
+			c = b;
+
+			b = a;
+
+			a = T1 + T2;
+
+			t++;
+		}
+
+		H[0] = a + H[0];
+
+		H[1] = b + H[1];
+
+		H[2] = c + H[2];
+
+		H[3] = d + H[3];
+
+		H[4] = e + H[4];
+
+		H[5] = f + H[5];
+
+		H[6] = g + H[6];
+
+		H[7] = h + H[7];
+
+		i++;
+	}
+	
 	free(bitstring);
+	
+	free(bitstring_blocks);
+	
 
 	return 0;
 }
