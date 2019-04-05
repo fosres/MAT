@@ -6,6 +6,8 @@ RFC (Request For Comments) 6234.
 
 #endif
 
+
+
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -636,6 +638,16 @@ element.
 	
 	free(bitstring_blocks);
 	
+	i = 0;
 
+	putchar(0xa);
+
+	while ( i < 8 )
+	{
+		printf("%s",H[i]);
+	}	
+
+	putchar(0xa);
+	
 	return 0;
 }
