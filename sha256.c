@@ -644,7 +644,9 @@ element.
 
 	while ( i < 8 )
 	{
-		printf("%s",H[i]);
+		printf("%08x",H[i]);
+
+		i++;
 	}	
 
 	putchar(0xa);
