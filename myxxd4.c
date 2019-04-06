@@ -125,7 +125,7 @@ void print_hextable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 
 	unsigned char c = 0;
 
-	while ( i < FILE_SIZE )
+	while ( i <= FILE_SIZE )
 	{
 		c = fgetc(in);
 		

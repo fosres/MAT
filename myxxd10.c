@@ -511,58 +511,15 @@ This printf actually forces printing of ASCII.
 		i++;	
 
 		// Bug: Write code to place ff and extra spaces to align last ASCII line here
-		
+	}
+
 		if ( i == FILE_SIZE )
 		{
-			if ( i%NUM_HEX_ROWS != 0 )
-			{	
-				printf("%02x",0xff);	
-			}
-#if 0
-			else
-			{
-				printf("\n%08x:%c",i,0x20);
-
-				printf("%02x",0xff);	
-			}
-#endif			
 			rsize_t index = i;
 
 			while ( index % NUM_HEX_ROWS != 0 ) 
 			{
 				
-#if 0
-The first two %cs in
-
-the first conditional of
-
-the ? statement are for
-
-the two hex characters for
-
-a column.
-
-The last %c is for the space
-
-that is between hexadecimal
-
-sixteen-bit word.
-
-The first two %cs inthe first conditional of
-
-the ? statement are for
-
-the two hex characters for
-
-a column.
-
-The last %c is for the space
-
-that is between hexadecimal
-
-sixteen-bit words.
-
-#endif	
 				
 				(index%2 == 0) 
 					
@@ -586,86 +543,14 @@ NUM_HEX_ROWS
 
 #endif	
 
-		if ( index % NUM_HEX_ROWS == 0 )
-		{
-			putchar(0x20);
-#if 0			
-			index = 1;
-
-			while ( index % NUM_HEX_ROWS != 0 ) 
+			if ( index % NUM_HEX_ROWS == 0 )
 			{
-				
-#if 0
-The first two %cs in
-
-the first conditional of
-
-the ? statement are for
-
-the two hex characters for
-
-a column.
-
-The last %c is for the space
-
-that is between hexadecimal
-
-sixteen-bit word.
-
-The first two %cs inthe first conditional of
-
-the ? statement are for
-
-the two hex characters for
-
-a column.
-
-The last %c is for the space
-
-that is between hexadecimal
-
-sixteen-bit words.
-
-#endif	
-				
-				(index%2 == 0) 
-					
-					? 
-					
-					( printf("%c%c",0x20,0x20) ) 
-					
-					: 
-					
-					( printf("%c%c%c",0x20,0x20,0x20) );
-				
-				index++;
-			}
-#endif
-			putchar(0x8); //align last ASCII line
+				putchar(0x20);
+			}	
+	
 		}
 
-#if 0
-The following backspace 
-
-(0x8) is supposed to align
-
-the last line perfectly.
-#endif
-			if ( NUM_HEX_ROWS % 2 == 0 )
-			{	
-				fputc(0x8,stdout);
-			}
-
-			else
-			{
-				fputc(0x8,stdout);
-
-				fputc(0x8,stdout);
-			}
-
-
-		}
-	}
+	
 
 	if ( i == FILE_SIZE && (i%NUM_HEX_ROWS) != 0  )
 	{
@@ -680,7 +565,7 @@ the last line perfectly.
 				
 				while ( 
 					
-					u <= ( i%NUM_HEX_ROWS )
+					u < ( i%NUM_HEX_ROWS )
 
 				      )
 				{
@@ -716,7 +601,7 @@ the last line perfectly.
 				
 				while ( 
 					
-					u <= ( NUM_HEX_ROWS )
+					u < ( NUM_HEX_ROWS )
 
 				      )
 				{
