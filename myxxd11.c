@@ -219,11 +219,11 @@ This printf actually forces printing of ASCII.
 					
 					? 
 					
-					( printf("%c%c",0x20,0x20) ) 
+					( printf("%*c",0x9,0x20) ) 
 					
 					: 
 					
-					( printf("%c%c%c",0x20,0x20,0x20) );
+					( printf("%*c",0x9,0x20) );
 				
 				index++;
 			}
