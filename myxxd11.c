@@ -196,9 +196,12 @@ This printf actually forces printing of ASCII.
 			
 		}
 
-		
-		(i%2 == 0) ? ( printf("%02x",c) ) : ( printf("%02x%c",c,0x20) );
-		
+		printf("%08s%c",print_binary(c),0x20);
+
+#if 0	
+		(i%2 == 0) ? ( printf("%08s",print_binary(c)) ) : ( printf("%08s%c",print_binary(c),0x20) );
+
+#endif		
 		i++;	
 
 		// Bug: Write code to place ff and extra spaces to align last ASCII line here
