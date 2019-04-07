@@ -68,14 +68,17 @@ void colorchar(uint8_t c)
 
 		else if ( isalpha(c) )
 		{
-			printf("\e[1;35m");
+			
+			printf("\e[38;5;214m");
+
 
 		}
 
 		else if ( isdigit(c) )
 		{
-			printf("\e[0;33m");
-
+//			printf("\e[1;33m");
+			
+			printf("\e[38;5;226m");
 		}	
 	
 		else if ( !isprint(c) )
