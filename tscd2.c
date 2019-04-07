@@ -63,13 +63,13 @@ void colorchar(uint8_t c)
 	
 		if ( c == 0x0 )
 		{
-			printf("\e[0;37m");
+			printf("\e[38;5;244m");
 		}
 
 		else if ( isalpha(c) )
 		{
 			
-			printf("\e[38;5;214m");
+			printf("\e[38;5;208m");
 
 
 		}
@@ -88,7 +88,12 @@ void colorchar(uint8_t c)
 
 		else if ( isspace(c) )
 		{
-			printf("\e[1;32m");
+			printf("\e[38;5;154m");
+		}
+
+		else if ( ispunct(c) )
+		{
+			printf("\e[38;5;164m");
 		}
 
 		else if ( c < 16 )
@@ -161,16 +166,14 @@ void print_bintable2(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 	{
 		c = fgetc(in);
 		
-		colorchar(c);		
 #if 0
 
 This printf actually forces printing of ASCII.
 
 #endif	
-
 		if ( i == 0 )
-		{ printf("%08x:%c",i,0x20); }
-
+		{ colorchar(c); printf("%08x:%c",i,0x20); resetcolor(); }
+		
 		else if ( (i%NUM_BIN_ROWS) == 0  )
 		{
 				fputc(0x20,stdout);
@@ -198,6 +201,8 @@ This printf actually forces printing of ASCII.
 				{
 					( c = fgetc(in) );	
 					
+					colorchar(c);
+
 					if ( isprint(c) )
 					{	
 						fputc(c,stdout);
@@ -209,17 +214,25 @@ This printf actually forces printing of ASCII.
 					}
 
 					u++;
+
+					resetcolor();
 				}
 
 				c = fgetc(in); //catch up to latest row
 
 
-				
+				colorchar(c);
+
 				printf("\n%08x:%c",i,0x20);
-			
+
+				resetcolor();	
 		}
+		
+		colorchar(c);
 
 		printf("%08s%c",print_binary(c),0x20);
+
+		resetcolor();
 
 #if 0	
 		(i%2 == 0) ? ( printf("%08s",print_binary(c)) ) : ( printf("%08s%c",print_binary(c),0x20) );
@@ -227,7 +240,6 @@ This printf actually forces printing of ASCII.
 #endif		
 		i++;	
 		
-		resetcolor();
 
 		// Bug: Write code to place ff and extra spaces to align last ASCII line here
 	}
