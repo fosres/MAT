@@ -436,7 +436,7 @@ This printf actually forces printing of ASCII.
 		colorchar(c);
 
 		
-		(i%2 != 0) ? ( printf("%02x",c) ) : ( printf("%c%02x",0x20,c) );
+		(i%1 != 0) ? ( printf("%02x",c) ) : ( printf("%c%02x",0x20,c) );
 		
 		i++;	
 		
@@ -457,7 +457,7 @@ This printf actually forces printing of ASCII.
 					
 					? 
 					
-					( printf("%c%c",0x20,0x20) ) 
+					( printf("%c%c%c",0x20,0x20,0x20) ) 
 					
 					: 
 					
