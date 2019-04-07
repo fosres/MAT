@@ -169,7 +169,7 @@ This printf actually forces printing of ASCII.
 
 					else
 					{
-						fputc(0x2e,stdout);
+						printf("\u00b7");
 					}
 
 					u++;
@@ -259,7 +259,7 @@ NUM_BIN_ROWS
 
 					else
 					{
-						fputc(0x2e,stdout);
+						printf("\u00b7");
 					}
 
 					u++;
@@ -295,7 +295,7 @@ NUM_BIN_ROWS
 
 					else
 					{
-						fputc(0x2e,stdout);
+						printf("\u00b7");
 					}
 
 					u++;
@@ -366,7 +366,7 @@ This printf actually forces printing of ASCII.
 
 					else
 					{
-						fputc(0x2e,stdout);
+						printf("\u00b7");
 					}
 
 					u++;
@@ -381,7 +381,7 @@ This printf actually forces printing of ASCII.
 		}
 
 		
-		(i%2 == 0) ? ( printf("%02x",c) ) : ( printf("%02x%c",c,0x20) );
+		(i%2 != 0) ? ( printf("%02x",c) ) : ( printf("%c%02x",0x20,c) );
 		
 		i++;	
 
@@ -453,7 +453,7 @@ NUM_HEX_ROWS
 
 					else
 					{
-						fputc(0x2e,stdout);
+						printf("\u00b7");
 					}
 
 					u++;
@@ -489,7 +489,7 @@ NUM_HEX_ROWS
 
 					else
 					{
-						fputc(0x2e,stdout);
+						printf("\u00b7");
 					}
 
 					u++;
