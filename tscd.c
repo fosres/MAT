@@ -57,21 +57,30 @@ rsize_t NUM_BIN_ROWS = 6;
 
 _Bool bintable_request = 0;
 
-#if 0
-_Bool isprintable(unsigned char c)
-{
-	switch(c)
-	{
-		case isalnum(c):
 
-		default:
+void colorchar(uint8_t c)
+{
+		if ( !isprint(c) )
 		{
-			break;
+			printf("\e[1;31m");	
 		}
-	}
+
+		else if ( isspace(c) )
+		{
+			printf("\e[1;32m");
+		}
+
+		else if ( iscntrl(c) )
+		{
+			printf("\e[0;32m");
+		}
 
 }
-#endif
+
+void resetcolor(void)
+{
+	printf("\033[0m");
+}
 
 void reverse(unsigned char s[])
 {
@@ -126,6 +135,7 @@ void print_bintable2(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 	{
 		c = fgetc(in);
 		
+		colorchar(c);		
 #if 0
 
 This printf actually forces printing of ASCII.
@@ -190,6 +200,8 @@ This printf actually forces printing of ASCII.
 
 #endif		
 		i++;	
+		
+		resetcolor();
 
 		// Bug: Write code to place ff and extra spaces to align last ASCII line here
 	}
@@ -252,6 +264,8 @@ NUM_BIN_ROWS
 				{
 					( c = fgetc(in) );	
 					
+					colorchar(c);	
+
 					if ( isprint(c) )
 					{	
 						fputc(c,stdout);
@@ -263,6 +277,8 @@ NUM_BIN_ROWS
 					}
 
 					u++;
+
+					resetcolor();
 				}
 
 				fseek(in,fpos,SEEK_SET);
@@ -287,6 +303,8 @@ NUM_BIN_ROWS
 				      )
 				{
 					( c = fgetc(in) );	
+
+					colorchar(c);
 					
 					if ( isprint(c) )
 					{	
@@ -299,6 +317,8 @@ NUM_BIN_ROWS
 					}
 
 					u++;
+
+					resetcolor();
 				}
 
 				fseek(in,fpos,SEEK_SET);
@@ -322,7 +342,8 @@ void print_hextable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
 	while ( i < FILE_SIZE )
 	{
 		c = fgetc(in);
-		
+
+		colorchar(c);	
 #if 0
 
 This printf actually forces printing of ASCII.
@@ -384,6 +405,8 @@ This printf actually forces printing of ASCII.
 		(i%2 != 0) ? ( printf("%02x",c) ) : ( printf("%c%02x",0x20,c) );
 		
 		i++;	
+		
+		resetcolor();
 
 		// Bug: Write code to place ff and extra spaces to align last ASCII line here
 	}
@@ -446,6 +469,8 @@ NUM_HEX_ROWS
 				{
 					( c = fgetc(in) );	
 					
+					colorchar(c);
+
 					if ( isprint(c) )
 					{	
 						fputc(c,stdout);
@@ -457,6 +482,8 @@ NUM_HEX_ROWS
 					}
 
 					u++;
+
+					resetcolor();
 				}
 
 				fseek(in,fpos,SEEK_SET);
@@ -482,6 +509,8 @@ NUM_HEX_ROWS
 				{
 					( c = fgetc(in) );	
 					
+					colorchar(c);
+
 					if ( isprint(c) )
 					{	
 						fputc(c,stdout);
@@ -493,6 +522,8 @@ NUM_HEX_ROWS
 					}
 
 					u++;
+
+					resetcolor();
 				}
 
 				fseek(in,fpos,SEEK_SET);

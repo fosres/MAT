@@ -1,11 +1,10 @@
 #include <stdio.h>
-#include <wchar.h>
+#include <stdlib.h>
 
 int main(void)
 {
-	printf("\u00b7");
-	
-	wputchar(0x00b7);
-
+	printf("\e[0;32m");	
+	printf("Testing         ");
+	printf("\e[0m");
 	return 0;
 }
