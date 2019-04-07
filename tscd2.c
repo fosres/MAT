@@ -622,6 +622,15 @@ int main(int argc, char ** argv)
 	{
 		switch ( *++(*argv)  )
 		{
+			case 0x64: //Put output in a separate file
+				{
+					
+
+
+					break;
+				}	
+			
+			
 			case 0x63:
 				{
 					// get column number
