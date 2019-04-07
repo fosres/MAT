@@ -60,9 +60,22 @@ _Bool bintable_request = 0;
 
 void colorchar(uint8_t c)
 {
+	
 		if ( c == 0x0 )
 		{
 			printf("\e[0;37m");
+		}
+
+		else if ( isalpha(c) )
+		{
+			printf("\e[1;35m");
+
+		}
+
+		else if ( isdigit(c) )
+		{
+			printf("\e[0;33m");
+
 		}	
 	
 		else if ( !isprint(c) )
