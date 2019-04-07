@@ -60,7 +60,12 @@ _Bool bintable_request = 0;
 
 void colorchar(uint8_t c)
 {
-		if ( !isprint(c) )
+		if ( c == 0x0 )
+		{
+			printf("\e[0;37m");
+		}	
+	
+		else if ( !isprint(c) )
 		{
 			printf("\e[1;31m");	
 		}
@@ -70,9 +75,14 @@ void colorchar(uint8_t c)
 			printf("\e[1;32m");
 		}
 
-		else if ( iscntrl(c) )
+		else if ( c < 16 )
 		{
 			printf("\e[0;32m");
+		}
+
+		else if ( c >= 16 && c <= 31 )
+		{
+			printf("\e[1;35m");
 		}
 
 }
@@ -353,6 +363,7 @@ This printf actually forces printing of ASCII.
 		if ( i == 0 )
 		{ printf("%08x:%c",i,0x20); }
 
+
 		else if ( (i%NUM_HEX_ROWS) == 0  )
 		{
 				fputc(0x20,stdout);
@@ -379,6 +390,8 @@ This printf actually forces printing of ASCII.
 				      )
 				{
 					( c = fgetc(in) );	
+
+					colorchar(c);
 					
 					if ( isprint(c) )
 					{	
@@ -391,15 +404,20 @@ This printf actually forces printing of ASCII.
 					}
 
 					u++;
+
+					resetcolor();
 				}
 
 				c = fgetc(in); //catch up to latest row
 
-
+				colorchar(c);
 				
 				printf("\n%08x:%c",i,0x20);
-			
+				
+				resetcolor();	
 		}
+
+		colorchar(c);
 
 		
 		(i%2 != 0) ? ( printf("%02x",c) ) : ( printf("%c%02x",0x20,c) );
