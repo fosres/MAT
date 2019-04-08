@@ -1032,7 +1032,7 @@ int main(int argc, char ** argv)
 		return 1;
 	}
 	
-	if ( ( in = fopen(argv[argc-2],"rb") ) != NULL && (argc-2) > 0 )
+	if ( ( (argc-2) > 0 ) && ( in = fopen(argv[argc-2],"rb") ) != NULL )
 	{
 		if ( ( out = fopen(argv[argc-1],"wb+") ) == NULL )
 		{
