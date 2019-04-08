@@ -3,11 +3,7 @@
 
 int main(void)
 {
-	printf("\e[1;33m");	
-	printf("Testing         ");
-	printf("\e[0m");
+	printf("%03o\n",0x20);
 
-	printf("\e[38;5;214m");
-	printf("Testing\n");
 	return 0;
 }
