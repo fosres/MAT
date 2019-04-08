@@ -57,10 +57,13 @@ rsize_t NUM_BIN_ROWS = 6;
 
 rsize_t NUM_OCT_ROWS = 12;
 
+rsize_t NUM_DEC_ROWS = 12;
+
 _Bool bintable_request = 0;
 
 _Bool octtable_request = 0;
 
+_Bool dectable_request = 0;
 
 void colorchar(uint8_t c)
 {
@@ -80,24 +83,24 @@ void colorchar(uint8_t c)
 
 		else if ( isdigit(c) )
 		{
-//			printf("\e[1;33m");
-			
 			printf("\e[38;5;226m");
 		}	
 	
 		else if ( !isprint(c) )
 		{
-			printf("\e[1;31m");	
+			printf("\e[38;5;196m");
 		}
 
 		else if ( isspace(c) )
 		{
-			printf("\e[38;5;154m");
+			printf("\e[38;5;40m");
 		}
 
 		else if ( ispunct(c) )
 		{
-			printf("\e[38;5;164m");
+//			printf("\e[38;5;164m");
+			
+			printf("\e[38;5;201m");
 		}
 
 		else if ( c < 16 )
@@ -348,6 +351,219 @@ NUM_BIN_ROWS
 
 					colorchar(c);
 					
+					if ( isprint(c) )
+					{	
+						fputc(c,stdout);
+					}
+
+					else
+					{
+						printf("\u00b7");
+					}
+
+					u++;
+
+					resetcolor();
+				}
+
+				fseek(in,fpos,SEEK_SET);
+			
+	}
+
+}
+
+void print_dectable(FILE * in,unsigned char ASCII[], const rsize_t FILE_SIZE)
+{
+	rsize_t i = 0;
+	
+	rsize_t u = 0;
+
+	unsigned long fpos = 0;
+
+	rsize_t j = 0; //need this to create printable ASCII in output
+
+	unsigned char c = 0;
+
+	while ( i < FILE_SIZE )
+	{
+		c = fgetc(in);
+
+		colorchar(c);	
+#if 0
+
+This printf actually forces printing of ASCII.
+
+#endif	
+
+		if ( i == 0 )
+		{ printf("%08x:%c",i,0x20); }
+
+
+		else if ( (i%NUM_DEC_ROWS) == 0  )
+		{
+				fputc(0x20,stdout);
+				
+				if ( i >= NUM_DEC_ROWS )
+				{	
+				
+					fseek(in,-NUM_DEC_ROWS-1,SEEK_CUR);
+
+				}
+
+				else
+				{
+					fseek(in,0,SEEK_SET);	
+				}
+
+				u = 0;				
+				
+				while ( 
+					
+					u < NUM_DEC_ROWS
+
+							
+				      )
+				{
+					( c = fgetc(in) );	
+
+					colorchar(c);
+					
+					if ( isprint(c) )
+					{	
+						fputc(c,stdout);
+					}
+
+					else
+					{
+						printf("\u00b7");
+					}
+
+					u++;
+
+					resetcolor();
+				}
+
+				c = fgetc(in); //catch up to latest row
+
+				colorchar(c);
+				
+				printf("\n%08x:%c",i,0x20);
+				
+				resetcolor();	
+		}
+
+		colorchar(c);
+
+		
+		(i%1 != 0) ? ( printf("%03u",c) ) : ( printf("%c%03u",0x20,c) );
+		
+		i++;	
+		
+		resetcolor();
+
+		// Bug: Write code to place ff and extra spaces to align last ASCII line here
+	}
+
+		if ( i == FILE_SIZE )
+		{
+			rsize_t index = i;
+
+			while ( index % NUM_DEC_ROWS != 0 ) 
+			{
+				
+				
+				(index%2 == 0) 
+					
+					? 
+					
+					( printf("%c%c%c%c",0x20,0x20,0x20,0x20) ) 
+					
+					: 
+					
+					( printf("%c%c%c%c",0x20,0x20,0x20,0x20) );
+				
+				index++;
+			}
+#if 0
+
+This while loop is meant for
+
+a line that is equal to
+
+NUM_DEC_ROWS
+
+#endif	
+
+			if ( index % NUM_DEC_ROWS == 0 )
+			{
+				putchar(0x20);
+			}	
+	
+		}
+
+	
+
+	if ( i == FILE_SIZE && (i%NUM_DEC_ROWS) != 0  )
+	{
+
+				rsize_t space_align = i;
+				
+				fpos = ftell(in);
+				
+				fseek(in,-(i%NUM_DEC_ROWS),SEEK_CUR);
+
+				u = 0;				
+				
+				while ( 
+					
+					u < ( i%NUM_DEC_ROWS )
+
+				      )
+				{
+					( c = fgetc(in) );	
+					
+					colorchar(c);
+
+					if ( isprint(c) )
+					{	
+						fputc(c,stdout);
+					}
+
+					else
+					{
+						printf("\u00b7");
+					}
+
+					u++;
+
+					resetcolor();
+				}
+
+				fseek(in,fpos,SEEK_SET);
+			
+	}
+	
+	else // ( i == FILE_SIZE && (i%NUM_DEC_ROWS) == 0  )
+	{
+
+				rsize_t space_align = i;
+				
+				fpos = ftell(in);
+				
+				fseek(in,-(NUM_DEC_ROWS),SEEK_CUR);
+
+				u = 0;				
+				
+				while ( 
+					
+					u < ( NUM_DEC_ROWS )
+
+				      )
+				{
+					( c = fgetc(in) );	
+					
+					colorchar(c);
+
 					if ( isprint(c) )
 					{	
 						fputc(c,stdout);
@@ -875,7 +1091,11 @@ int main(int argc, char ** argv)
 					ascii_line = (unsigned char *)calloc(NUM_HEX_ROWS,sizeof(unsigned char));
 
 					NUM_BIN_ROWS = (rsize_t)strtol(column_num,NULL,10);
+
 					NUM_OCT_ROWS = (rsize_t)strtol(column_num,NULL,10);
+
+					NUM_DEC_ROWS = (rsize_t)strtol(column_num,NULL,10);
+
 					break;
 				}
 
@@ -887,6 +1107,16 @@ int main(int argc, char ** argv)
 
 					ascii_line = (unsigned char *)calloc(NUM_BIN_ROWS+1,sizeof(unsigned char));
 					
+					break;
+				}
+
+			case 0x64:
+				{
+					dectable_request = 1;
+
+					free(ascii_line);					
+					ascii_line = (unsigned char *)calloc(NUM_DEC_ROWS+1,sizeof(unsigned char));
+
 					break;
 				}
 			
@@ -912,7 +1142,12 @@ int main(int argc, char ** argv)
 
 	}
 
-	if ( octtable_request == 1 )
+	if ( dectable_request == 1 )
+	{
+		print_dectable(in,ascii_line,SIZE);
+	}
+
+	else if ( octtable_request == 1 )
 	{
 		print_octtable(in,ascii_line,SIZE);
 	}	
