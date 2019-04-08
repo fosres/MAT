@@ -179,11 +179,11 @@ This printf actually forces printing of ASCII.
 
 #endif	
 		if ( i == 0 )
-		{ colorchar(c); printf("%08x:%c",i,0x20); resetcolor(); }
+		{ colorchar(c); fprintf(out,"%08x:%c",i,0x20); resetcolor(); }
 		
 		else if ( (i%NUM_BIN_ROWS) == 0  )
 		{
-				fputc(0x20,stdout);
+				fputc(0x20,out);
 				
 				if ( i >= NUM_BIN_ROWS )
 				{	
@@ -212,12 +212,12 @@ This printf actually forces printing of ASCII.
 
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -230,19 +230,19 @@ This printf actually forces printing of ASCII.
 
 				colorchar(c);
 
-				printf("\n%08x:%c",i,0x20);
+				fprintf(out,"\n%08x:%c",i,0x20);
 
 				resetcolor();	
 		}
 		
 		colorchar(c);
 
-		printf("%08s%c",print_binary(c),0x20);
+		fprintf(out,"%08s%c",print_binary(c),0x20);
 
 		resetcolor();
 
 #if 0	
-		(i%2 == 0) ? ( printf("%08s",print_binary(c)) ) : ( printf("%08s%c",print_binary(c),0x20) );
+		(i%2 == 0) ? ( fprintf(out,"%08s",print_binary(c)) ) : ( fprintf(out,"%08s%c",print_binary(c),0x20) );
 
 #endif		
 		i++;	
@@ -263,11 +263,11 @@ This printf actually forces printing of ASCII.
 					
 					? 
 					
-					( printf("%*c",0x9,0x20) ) 
+					( fprintf(out,"%*c",0x9,0x20) ) 
 					
 					: 
 					
-					( printf("%*c",0x9,0x20) );
+					( fprintf(out,"%*c",0x9,0x20) );
 				
 				index++;
 			}
@@ -283,7 +283,7 @@ NUM_BIN_ROWS
 
 			if ( index % NUM_BIN_ROWS == 0 )
 			{
-				putchar(0x20);
+				fputc(0x20,out);
 			}	
 	
 		}
@@ -313,12 +313,12 @@ NUM_BIN_ROWS
 
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -353,12 +353,12 @@ NUM_BIN_ROWS
 					
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -396,12 +396,12 @@ This printf actually forces printing of ASCII.
 #endif	
 
 		if ( i == 0 )
-		{ printf("%08x:%c",i,0x20); }
+		{ fprintf(out,"%08x:%c",i,0x20); }
 
 
 		else if ( (i%NUM_DEC_ROWS) == 0  )
 		{
-				fputc(0x20,stdout);
+				fputc(0x20,out);
 				
 				if ( i >= NUM_DEC_ROWS )
 				{	
@@ -430,12 +430,12 @@ This printf actually forces printing of ASCII.
 					
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -447,7 +447,7 @@ This printf actually forces printing of ASCII.
 
 				colorchar(c);
 				
-				printf("\n%08x:%c",i,0x20);
+				fprintf(out,"\n%08x:%c",i,0x20);
 				
 				resetcolor();	
 		}
@@ -455,7 +455,7 @@ This printf actually forces printing of ASCII.
 		colorchar(c);
 
 		
-		(i%1 != 0) ? ( printf("%03u",c) ) : ( printf("%c%03u",0x20,c) );
+		(i%1 != 0) ? ( fprintf(out,"%03u",c) ) : ( fprintf(out,"%c%03u",0x20,c) );
 		
 		i++;	
 		
@@ -476,11 +476,11 @@ This printf actually forces printing of ASCII.
 					
 					? 
 					
-					( printf("%c%c%c%c",0x20,0x20,0x20,0x20) ) 
+					( fprintf(out,"%c%c%c%c",0x20,0x20,0x20,0x20) ) 
 					
 					: 
 					
-					( printf("%c%c%c%c",0x20,0x20,0x20,0x20) );
+					( fprintf(out,"%c%c%c%c",0x20,0x20,0x20,0x20) );
 				
 				index++;
 			}
@@ -496,7 +496,7 @@ NUM_DEC_ROWS
 
 			if ( index % NUM_DEC_ROWS == 0 )
 			{
-				putchar(0x20);
+				fputc(0x20,out);
 			}	
 	
 		}
@@ -526,12 +526,12 @@ NUM_DEC_ROWS
 
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -566,12 +566,12 @@ NUM_DEC_ROWS
 
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -609,12 +609,12 @@ This printf actually forces printing of ASCII.
 #endif	
 
 		if ( i == 0 )
-		{ printf("%08x:%c",i,0x20); }
+		{ fprintf(out,"%08x:%c",i,0x20); }
 
 
 		else if ( (i%NUM_OCT_ROWS) == 0  )
 		{
-				fputc(0x20,stdout);
+				fputc(0x20,out);
 				
 				if ( i >= NUM_OCT_ROWS )
 				{	
@@ -643,12 +643,12 @@ This printf actually forces printing of ASCII.
 					
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -660,7 +660,7 @@ This printf actually forces printing of ASCII.
 
 				colorchar(c);
 				
-				printf("\n%08x:%c",i,0x20);
+				fprintf(out,"\n%08x:%c",i,0x20);
 				
 				resetcolor();	
 		}
@@ -668,7 +668,7 @@ This printf actually forces printing of ASCII.
 		colorchar(c);
 
 		
-		(i%1 != 0) ? ( printf("%03o",c) ) : ( printf("%c%03o",0x20,c) );
+		(i%1 != 0) ? ( fprintf(out,"%03o",c) ) : ( fprintf(out,"%c%03o",0x20,c) );
 		
 		i++;	
 		
@@ -689,11 +689,11 @@ This printf actually forces printing of ASCII.
 					
 					? 
 					
-					( printf("%c%c%c%c",0x20,0x20,0x20,0x20) ) 
+					( fprintf(out,"%c%c%c%c",0x20,0x20,0x20,0x20) ) 
 					
 					: 
 					
-					( printf("%c%c%c%c",0x20,0x20,0x20,0x20) );
+					( fprintf(out,"%c%c%c%c",0x20,0x20,0x20,0x20) );
 				
 				index++;
 			}
@@ -709,7 +709,7 @@ NUM_OCT_ROWS
 
 			if ( index % NUM_OCT_ROWS == 0 )
 			{
-				putchar(0x20);
+				fputc(0x20,out);
 			}	
 	
 		}
@@ -739,12 +739,12 @@ NUM_OCT_ROWS
 
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -779,12 +779,12 @@ NUM_OCT_ROWS
 
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -822,12 +822,12 @@ This printf actually forces printing of ASCII.
 #endif	
 
 		if ( i == 0 )
-		{ printf("%08x:%c",i,0x20); }
+		{ fprintf(out,"%08x:%c",i,0x20); }
 
 
 		else if ( (i%NUM_HEX_ROWS) == 0  )
 		{
-				fputc(0x20,stdout);
+				fputc(0x20,out);
 				
 				if ( i >= NUM_HEX_ROWS )
 				{	
@@ -856,12 +856,12 @@ This printf actually forces printing of ASCII.
 					
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -873,7 +873,7 @@ This printf actually forces printing of ASCII.
 
 				colorchar(c);
 				
-				printf("\n%08x:%c",i,0x20);
+				fprintf(out,"\n%08x:%c",i,0x20);
 				
 				resetcolor();	
 		}
@@ -881,7 +881,7 @@ This printf actually forces printing of ASCII.
 		colorchar(c);
 
 		
-		(i%1 != 0) ? ( printf("%02x",c) ) : ( printf("%c%02x",0x20,c) );
+		(i%1 != 0) ? ( fprintf(out,"%02x",c) ) : ( fprintf(out,"%c%02x",0x20,c) );
 		
 		i++;	
 		
@@ -902,11 +902,11 @@ This printf actually forces printing of ASCII.
 					
 					? 
 					
-					( printf("%c%c%c",0x20,0x20,0x20) ) 
+					( fprintf(out,"%c%c%c",0x20,0x20,0x20) ) 
 					
 					: 
 					
-					( printf("%c%c%c",0x20,0x20,0x20) );
+					( fprintf(out,"%c%c%c",0x20,0x20,0x20) );
 				
 				index++;
 			}
@@ -922,7 +922,8 @@ NUM_HEX_ROWS
 
 			if ( index % NUM_HEX_ROWS == 0 )
 			{
-				putchar(0x20);
+				fputc(0x20,out);
+				
 			}	
 	
 		}
@@ -952,12 +953,12 @@ NUM_HEX_ROWS
 
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -992,12 +993,12 @@ NUM_HEX_ROWS
 
 					if ( isprint(c) )
 					{	
-						fputc(c,stdout);
+						fputc(c,out);
 					}
 
 					else
 					{
-						printf("\u00b7");
+						fprintf(out,"\u00b7");
 					}
 
 					u++;
@@ -1161,22 +1162,22 @@ int main(int argc, char ** argv)
 
 	if ( dectable_request == 1 )
 	{
-		print_dectable(in,ascii_line,SIZE);
+		print_dectable(in,out,ascii_line,SIZE);
 	}
 
 	else if ( octtable_request == 1 )
 	{
-		print_octtable(in,ascii_line,SIZE);
+		print_octtable(in,out,ascii_line,SIZE);
 	}	
 	
 	else if ( bintable_request == 1 )
 	{ 
-		print_bintable2(in,ascii_line,SIZE);
+		print_bintable2(in,out,ascii_line,SIZE);
 	}
 
 	else
 	{
-		print_hextable(in,ascii_line,SIZE);
+		print_hextable(in,out,ascii_line,SIZE);
 	}
 
 	if ( fclose(in) == EOF )
