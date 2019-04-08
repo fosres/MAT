@@ -17,6 +17,7 @@ the exact same LICENSE and copyright permissions.
 #endif
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
