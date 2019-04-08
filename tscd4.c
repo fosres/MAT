@@ -1032,7 +1032,7 @@ int main(int argc, char ** argv)
 		return 1;
 	}
 	
-	if ( ( in = fopen(argv[argc-2],"rb") ) != NULL )
+	if ( ( in = fopen(argv[argc-2],"rb") ) != NULL && (argc-2) > 0 )
 	{
 		if ( ( out = fopen(argv[argc-1],"wb+") ) == NULL )
 		{
@@ -1184,7 +1184,18 @@ int main(int argc, char ** argv)
 	{
 		fprintf(stderr,"\033[1;31m\n\0");	
 		
-		fprintf(stderr,"%llu: Error! Failed to open %s\n",__LINE__,argv[argc-1]);
+		fprintf(stderr,"%llu: Error! Failed to close %s\n",__LINE__,argv[argc-1]);
+
+		fprintf(stderr,"\033[0m\n\0");
+		
+		return 1;
+	}
+	
+	if ( fclose(out) == EOF )
+	{
+		fprintf(stderr,"\033[1;31m\n\0");	
+		
+		fprintf(stderr,"%llu: Error! Failed to close %s\n",__LINE__,argv[argc-1]);
 
 		fprintf(stderr,"\033[0m\n\0");
 		
