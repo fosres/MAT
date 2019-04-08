@@ -125,7 +125,7 @@ void reverse(unsigned char s[])
 {
   for (int i = 0, j = strlen(s)-1; i < j; i++, j--)
   {
-    char temp = s[i];
+    unsigned char temp = s[i];
 
     s[i] = s[j];
 
@@ -137,13 +137,13 @@ unsigned char * print_binary(unsigned char input)
 {
 
 
-  static char s[10];
+  static unsigned char s[10];
 
-  char * s_p = &s[0];
+  unsigned char * s_p = &s[0];
 
   while (input > 0)
   {
-    *s_p++ = (char)((input&1)+'0');
+    *s_p++ = (unsigned char)((input&1)+'0');
 
     input >>= 1;
   }
