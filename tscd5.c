@@ -431,6 +431,8 @@ This printf actually forces printing of ASCII.
 		else if ( (i%NUM_DEC_ROWS) == 0  )
 		{
 				fputc(0x20,out);
+
+				fputc(0x20,out);
 				
 				if ( i >= NUM_DEC_ROWS )
 				{	
@@ -534,6 +536,7 @@ NUM_DEC_ROWS
 
 	if ( i == FILE_SIZE && (i%NUM_DEC_ROWS) != 0  )
 	{
+				fputc(0x20,out);
 
 				rsize_t space_align = i;
 				
@@ -574,6 +577,7 @@ NUM_DEC_ROWS
 	
 	else // ( i == FILE_SIZE && (i%NUM_DEC_ROWS) == 0  )
 	{
+				fputc(0x20,out);
 
 				rsize_t space_align = i;
 				
