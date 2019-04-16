@@ -5,6 +5,22 @@
 //#include <wchar.h>
 #include <iconv.h>
 
+
+#if 0
+
+Terminal fails to print unsupported
+
+Unicode characters in the code point
+
+range U+d800 to U+dfff, inclusive.
+
+NOTE: All characters with UTF-8 hex code
+
+starting with a d hexadecimal are NOT
+
+printing.
+
+#endif
 void reverse(unsigned char s[])
 {
   for (int i = 0, j = strlen(s)-1; i < j; i++, j--)
@@ -23,7 +39,7 @@ int main(void)
 
 	//printf("The locale is %s\n",locale);
 
-	uint32_t utf8_hex = 0xe1bea8;	
+	uint32_t utf8_hex = 0xeda080;//0b111011111011101110111111; //UTF-8 BOM Marker	
 	
 	uint32_t utf8_space = 0x20;
 
@@ -71,6 +87,7 @@ int main(void)
 	printf("%s",s);
 
 	printf("%s",s);
+
 
 	return 0;
 }

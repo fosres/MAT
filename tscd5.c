@@ -644,6 +644,8 @@ This printf actually forces printing of ASCII.
 		else if ( (i%NUM_OCT_ROWS) == 0  )
 		{
 				fputc(0x20,out);
+
+				fputc(0x20,out);
 				
 				if ( i >= NUM_OCT_ROWS )
 				{	
@@ -708,6 +710,7 @@ This printf actually forces printing of ASCII.
 
 		if ( i == FILE_SIZE )
 		{
+			
 			rsize_t index = i;
 
 			while ( index % NUM_OCT_ROWS != 0 ) 
@@ -739,6 +742,7 @@ NUM_OCT_ROWS
 			if ( index % NUM_OCT_ROWS == 0 )
 			{
 				fputc(0x20,out);
+
 			}	
 	
 		}
@@ -747,6 +751,7 @@ NUM_OCT_ROWS
 
 	if ( i == FILE_SIZE && (i%NUM_OCT_ROWS) != 0  )
 	{
+				fputc(0x20,out);
 
 				rsize_t space_align = i;
 				
@@ -787,6 +792,7 @@ NUM_OCT_ROWS
 	
 	else // ( i == FILE_SIZE && (i%NUM_OCT_ROWS) == 0  )
 	{
+				fputc(0x20,out);
 
 				rsize_t space_align = i;
 				
@@ -856,6 +862,8 @@ This printf actually forces printing of ASCII.
 
 		else if ( (i%NUM_HEX_ROWS) == 0  )
 		{
+				fputc(0x20,out);
+
 				fputc(0x20,out);
 				
 				if ( i >= NUM_HEX_ROWS )
@@ -952,12 +960,14 @@ NUM_HEX_ROWS
 			if ( index % NUM_HEX_ROWS == 0 )
 			{
 				fputc(0x20,out);
+
+				fputc(0x20,out);
+
 				
 			}	
 	
 		}
 
-	
 
 	if ( i == FILE_SIZE && (i%NUM_HEX_ROWS) != 0  )
 	{
