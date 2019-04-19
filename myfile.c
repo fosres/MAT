@@ -51,7 +51,7 @@ _Bool isascii(FILE * in, const rsize_t FILE_SIZE)
 
 _Bool iswindex(FILE * in,const rsize_t FILE_SIZE)
 {
-	const uint32_t IMAGE_NT_SIGNATURE = 0x00004550;	//PE(NUL)(NUL)
+	const uint32_t IMAGE_NT_SIGNATURE = 0x4550;	//PE(NUL)(NUL)
 
 	const uint32_t IMAGE_OS2_SIGNATURE_LE = 0x454c; // LE
 
