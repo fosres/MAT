@@ -122,6 +122,29 @@ void resetcolor(void)
 	printf("\033[0m");
 }
 
+_Bool isutf8cntrl(uint32_t c)
+{
+	
+
+}
+
+void colorutf8(uint8_t * s)
+{
+	uint32_t utf8_hex = 0x00;
+
+	uint8_t * s_p = s;
+
+	while ( *s_p != 0x00 )
+	{
+		utf8_hex += *s_p;
+
+		utf8_hex <<= 8;
+
+		s_p++;
+	}
+
+}
+
 void printview(FILE * in, FILE * out,const rsize_t FILE_SIZE)
 {
 	rsize_t i = 0;
@@ -835,6 +858,35 @@ NUM_OCT_ROWS
 			
 	}
 
+}
+
+void print_utf8hextable(FILE * in, FILE * out,const rsize_t FILE_SIZE)
+{
+	rsize_t i = 0;
+
+	static uint32_t utf8_hex = 0x00;
+
+	static uint8_t utf8_str[5];
+
+	static uint8_t c = 0;
+
+	while ( i < FILE_SIZE )
+	{
+		c = fgetc(in);
+
+		if ( ( c >> 6 ) != 0b10 && ftell(in) > 0 ) //starting byte for UTF-8 character
+		{
+			memset_s(utf8_str,5*sizeof(uint8_t),0x00,5*sizeof(uint8_t));
+
+			memcpy(utf8_str,utf8_hex,5*sizeof(uint8_t));
+
+			reverse(utf8_str);
+
+					
+		}
+
+		i++;
+	}	
 }
 
 void print_hextable(FILE * in, FILE * out, unsigned char ASCII[], const rsize_t FILE_SIZE)
