@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <time.h>
 
+
 #ifndef __uint8_t_defined
 typedef unsigned char uint8_t;
 #define __uint8_t_defined 1
@@ -97,7 +98,7 @@ uint8_t * symmcipher(FILE * in, const rsize_t FILE_SIZE, FILE * out)
 
 	while ( i < sizeof(nonce) )
 	{
-		nonce[i] = (uint8_t)( rand() * 256 + 0.5 );
+		nonce[i] = (uint8_t)( rand() % 256 );
 
 		i++;
 	}
@@ -202,6 +203,19 @@ _Bool main(rsize_t argc, uint8_t ** argv)
 	rewind(output);
 
 	decrypt(output,OUTPUT_FILE_SIZE,stdout,key);
+
+	printf("%c%cKey is:%c",0xa,0xa,0xa);
+
+	rsize_t i = 0;
+
+	while ( i < 64 )
+	{
+		printf("%.02x",key[i]);
+		
+		i++;
+	}
+
+	putchar(0xa);
 
 	return 0;
 

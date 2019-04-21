@@ -1,208 +1,195 @@
+#if 0
+
+This program was inspired by Kenneth Lane Thompsons solution
+
+to designing a simple quine program:
+
+http://www.azillionmonkeys.com/qed/self3_c.txt
+
+To convert any non-quine program into a quine program, simply write something
+
+like (leave the empty lines as is when adding them to ken_quine_generator.c:
+
+FILE * target = NULL;
+
+static char name[1024];  
+
+snprintf(name,"%s\b\b_quine.c\0",argv[1]);
+
+
+if ( ( target = fopen(name,"wb+") ) == NULL )
+{
+	
+	fprintf(stdout,"%d: Error! Can't open %s for rewriting!\n",name);
+
+	return 1;
+}
+
+
+
+static char * q_p = q;
+
+while ( *q_p != 0x0 )
+{
+	fputc(target_file.c,*q_p);
+
+	q_p++;
+}
+
+
+fprintf("%s\n",q,target_file.c);
+
+if ( fclose(target)  == EOF )
+{
+	fprintf(stdout,"Error! Failed to close %s!\n",name);
+
+	return 1;
+
+}
+
+RIGHT BEFORE:
+
+return 0;
+
+which is at the end of the int main function.
+
+Finally, run:
+
+./ken_quine_generator.o file.c
+
+Expect the quine file to be stored in:
+
+file_quine.c
+
+in your current directory
+
+#endif
+
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <time.h>
+#include <limits.h>
 
-#ifndef __uint8_t_defined
-typedef unsigned char uint8_t;
-#define __uint8_t_defined 1
-#endif
-
-#ifndef __uint32_t_defined
-typedef unsigned int uint32_t;
-#define __uint32_t_defined 1
-#endif
-
-#ifndef __rsize_t_defined
-typedef size_t rsize_t;
-#define __rsize_t_defined 1
-#endif
-
-#ifdef __RSIZE_MAX__
-#define RSIZE_MAX (__RSIZE_MAX__)
-#else
-
-#define RSIZE_MAX ( (SIZE_MAX ) >> ( 1 ) )
-#endif
-
-void reverse(uint8_t arr[])
+int main(int argc, char ** argv)
 {
-	uint8_t temp = 0;
 	
-	for ( rsize_t i = 0, j = strnlen_s(arr,RSIZE_MAX) - 1; i < j ; i++, j-- )
-	{
-		temp = arr[i];
+	
+	FILE * in = NULL;
 
-		arr[i] = arr[j];
-
-		arr[j] = temp;
-
-	}
-}
-
-#if 0
-which_endian returns 0 for
-
-little-endian and
-
-return 1 for big-endian
-
-#endif
-
-_Bool which_endian(void)
-{
-	const uint32_t test = 0xd04bdd22;
-
-	uint32_t result = 0;
-
-	static uint8_t test_str[5];
-
-	memcpy(test_str,&test,sizeof(uint32_t));	
-
-	rsize_t i = 0;
-
-	while ( i < sizeof(test_str) )
-	{
-		result += test_str[i];
-
-		result <<= 8;
-
-		result &= 0xffffff00;
-
-		i++;
-	}
-
-	if ( result != test )
-	{
-		return 0;
-	}
-
-	else
-	{
+	if ( argc != 2 )
+	{ 
+		fprintf(stderr,"Error! Less than two arguments.\n");	
 		return 1;
 	}
 
-}
-
-uint8_t * symmcipher(FILE * in, const rsize_t FILE_SIZE, FILE * out)
-{
-	srand(time(NULL));
-
-	static uint8_t nonce[64];
-
-	static uint8_t key = 0x00;
-	
-	rsize_t i = 0;
-
-	while ( i < sizeof(nonce) )
+	if ( ( in = fopen(argv[1],"rb") ) == NULL )
 	{
-		nonce[i] = (uint8_t)( rand() * 256 + 0.5 );
+		fprintf(stderr,"Error! Failed to open file!\n");
 
-		i++;
+		return 1;
+	}
+
+	
+	fseek(in,0L,SEEK_END);
+
+	const rsize_t SIZE = ftell(in);
+
+	rewind(in);
+//#if 0	
+	static char * str; 
+
+	static char * s_p;
+
+	static char * tf_p;
+	
+	str = (char *)calloc(sizeof(char),SIZE+1);
+	
+	s_p = &str[0];
+	
+	fread(str,SIZE+1,sizeof(char),in);
+
+	str[SIZE] = 0x0;
+//#endif
+	char c = 0;
+
+	rewind(in);
+#if 0
+// printing the contents of the source code in hexadecmial directly from file
+// Kenneth Lane Thompson thought of this simple, brilliant idea
+	printf("printing the contents of the source code in hexadecmial directly from file:\n\n");
+
+	printf("char q[] = \n{\n");
+	while ( ( c = fgetc(in) ) != EOF )
+	{
+		printf("0x%x, ",c);	
 	}
 	
+	printf("0x0\n",);
+	printf("};\n\n");
+
+	s_p = &str[0];
+
+//actually printing the contents of the source code in hexadecimal from array
+
+	printf("printing the contents of the source code in hexadecimal from array\n\n");
+
+	
+	printf("char q[] = \n{\n");
+	
+	while ( ( c = *s_p ) != 0x0 )
+	{ 	fprintf(stdout,"0x%x, ",c); s_p++;  }
+	printf("};\n\n");
+
+// prints the contents of the source code in ASCII text:
+
 	rewind(in);
 
-	i = 0;
+	printf("Printing contents of source in ASCII text from file:\n\n");
 
-	while ( i < FILE_SIZE )
+	while ( ( c = fgetc(in) ) != EOF )
 	{
-		key = fgetc(in) ^ nonce[i%64];
-		
-		fputc(key,out);
-		
-		i++;
+		fputc(c,stdout);
 	}
-
-	return nonce;
-
-}
-
-void decrypt(FILE * msg, const rsize_t FILE_SIZE,  FILE * out, uint8_t * key)
-{	
 	
-	rewind(msg);
+	printf("\n\n");
 
-	rsize_t i = 0;
+	s_p = &str[0];
+#endif
 
-	uint8_t c = 0;
+//actually printing the contents of the source code in hexadecimal from array
 
-	while ( i < FILE_SIZE )
+//	printf("printing the contents of the source code in hexadecimal from array\n\n");
+
+	
+	printf("static char q[] = \n{\n");
+	
+	while ( ( c = *s_p ) != 0x0 )
+	{ 	fprintf(stdout,"0x%x, ",c); s_p++;  }
+	
+	fprintf(stdout,"0x0\n");
+	
+	fprintf(stdout,"};\n\n");
+
+
+//	printf("Printing contents of source in ASCII text from array:\n\n");
+	
+	s_p = str;
+
+	while ( ( c = *s_p ) != 0x0 )
 	{
-		c = fgetc(msg) ^ key[i%64];
-		
-		fputc(c,out);
-		
-		i++;
+		fputc(c,stdout); s_p++;
 	}
 
 
-}
 
-_Bool main(rsize_t argc, uint8_t ** argv)
-{
-	if ( argc < 2 )
+	if ( fclose(in) == EOF )
 	{
-		fprintf(stderr,"\e[38;5;9m");
-
-		fprintf(stderr,"Error: Less than two arguments!\n");
-
-		fprintf(stderr,"\e[0m");
+		fprintf(stderr,"Error! Failed to open file!\n");
 
 		return 1;
 	}
-
-	FILE * input = NULL;
-
-	rsize_t INPUT_FILE_SIZE = 0;
-
-	rsize_t OUTPUT_FILE_SIZE = 0;
-
-	FILE * output = stdout;
-
-	static uint8_t * key;
-
-	key = NULL;
-
-	if ( argv[2] != NULL && ( ( output = fopen(argv[2],"wb+") ) == NULL ) )
-	{
-		fprintf(stderr,"\e[38;5;9m");
-
-		fprintf(stderr,"Error: Cannot open output file for writing!\n");
-
-		fprintf(stderr,"\e[0m");
-		
-	}
-
-	if ( ( input = fopen(argv[1],"rb") ) == NULL )
-	{
-		fprintf(stderr,"\e[38;5;9m");
-
-		fprintf(stderr,"Error: Cannot open input file for reading!\n");
-
-		fprintf(stderr,"\e[0m");
-
-		return 1;
-		
-	}
-
-	fseek(input,0,SEEK_END);
-
-	INPUT_FILE_SIZE = ftell(input);
-
-	rewind(input);
 	
-	key = symmcipher(input,INPUT_FILE_SIZE,output);
-
-	fseek(output,0,SEEK_END);
-
-	OUTPUT_FILE_SIZE = ftell(output);
-
-	rewind(output);
-
-	decrypt(output,OUTPUT_FILE_SIZE,stdout,key);
+	free(str);	
 
 	return 0;
-
-}	
+}
