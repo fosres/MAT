@@ -204,6 +204,8 @@ _Bool main(rsize_t argc, uint8_t ** argv)
 
 	decrypt(output,OUTPUT_FILE_SIZE,stdout,key);
 
+	printf("---------------------------------------");
+
 	printf("%c%cKey is:%c",0xa,0xa,0xa);
 
 	rsize_t i = 0;
