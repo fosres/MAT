@@ -27,6 +27,14 @@ typedef size_t rsize_t;
 #define __rsize_t_defined 1
 #endif
 
+#ifdef __RSIZE_MAX__
+#define RSIZE_MAX (__RSIZE_MAX__)
+#else
+
+#define RSIZE_MAX ( (SIZE_MAX ) >> ( 1 ) )
+#endif
+
+
 #ifndef __uint8_t_defined
 typedef unsigned char uint8_t;
 #define __uint8_t_defined 1
