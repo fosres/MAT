@@ -93,6 +93,36 @@ _Bool iswindex(FILE * in,const rsize_t FILE_SIZE)
 
 }
 
+_Bool is_utf8cont(uint8_t c)
+{
+
+//First try to disprove by detecting starting byte
+
+	if ( ( c >> 3 ) == 0b11110 )
+	{
+		return 0;	
+	}
+
+	else if ( ( c >> 4 ) == 0b1110 )
+	{
+		return 0;
+	}
+
+	else if ( ( c >> 5 ) == 0b110 )
+	{
+		return 0;
+	}
+
+	else if ( ( c >> 7 ) == 0b0 )
+	{
+		return 0;
+	}
+
+	return 1;
+
+}
+
+
 _Bool isutf8(FILE * in,const rsize_t FILE_SIZE)  
 {
 		
@@ -146,18 +176,25 @@ _Bool isutf8(FILE * in,const rsize_t FILE_SIZE)
 			return 0;	
 		}
 
-		if ( ( c >> 6 ) != 0b10 ) //beginning byte for UTF-8 character
+		if ( !is_utf8cont(c) ) //beginning byte for UTF-8 character
 		{
 
 #if 0
 invalid UTF-8 code point
 #endif
-			if ( utf8_hex >= utf8_lftpt && utf8_hex <= utf8_rgtpt )
+			if ( 
+				( utf8_hex >= utf8_lftpt ) 
+					
+				&& 
+					
+				( utf8_hex <= utf8_rgtpt ) 
+					
+			   )
 			{
 				return 0;
 			}
 
-			else if ( utf8_hex >  0xf0a1bfbf )
+			else if ( utf8_hex >  0xf0a1bfbf ) //overexceeds U+10FFFF
 			{
 				return 0;
 			}
@@ -167,6 +204,8 @@ invalid UTF-8 code point
 			utf8_hex += c;
 
 			utf8_hex <<= 8;
+
+			utf8_hex &= 0xffffff00;
 
 
 		}

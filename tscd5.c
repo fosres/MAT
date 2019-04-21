@@ -27,6 +27,15 @@ typedef size_t rsize_t;
 #define __rsize_t_defined 1
 #endif
 
+#ifndef __uint8_t_defined
+typedef unsigned char uint8_t;
+#define __uint8_t_defined 1
+#endif
+
+#ifndef __uint32_t_defined
+typedef unsigned int uint32_t;
+#define __uint32_t_defined 1
+#endif
 
 #if 0
 
@@ -59,6 +68,8 @@ rsize_t NUM_BIN_ROWS = 6;
 rsize_t NUM_OCT_ROWS = 12;
 
 rsize_t NUM_DEC_ROWS = 12;
+
+rsize_t UTF8_HEX_ROWS = 6;
 
 _Bool bintable_request = 0;
 
@@ -860,32 +871,140 @@ NUM_OCT_ROWS
 
 }
 
+
+#if 0
+For is_utf8cont, assume correct UTF-8 encoding
+#endif
+
+_Bool is_utf8cont(uint8_t c)
+{
+
+//First try to disprove by detecting starting byte
+
+	if ( ( c >> 3 ) == 0b11110 )
+	{
+		return 0;	
+	}
+
+	else if ( ( c >> 4 ) == 0b1110 )
+	{
+		return 0;
+	}
+
+	else if ( ( c >> 5 ) == 0b110 )
+	{
+		return 0;
+	}
+
+	else if ( ( c >> 7 ) == 0b0 )
+	{
+		return 0;
+	}
+
+	return 1;
+
+}
+
 void print_utf8hextable(FILE * in, FILE * out,const rsize_t FILE_SIZE)
 {
 	rsize_t i = 0;
 
+	rsize_t utf8i = 0; //for printing actual UTF8 character
+
 	static uint32_t utf8_hex = 0x00;
 
-	static uint8_t utf8_str[5];
+	const rsize_t UTF8_STR_SIZE = UTF8_HEX_ROWS*4*sizeof(uint8_t)+1;
+
+	static uint8_t utf8_str[UTF8_HEX_ROWS*4*sizeof(uint8_t)+1];
+
+	memset_s(utf8_str,UTF8_STR_SIZE,0x00,UTF8_STR_SIZE);
 
 	static uint8_t c = 0;
+
+	static long utf8_offsets[UTF8_HEX_ROWS];
+
+	static long * utf8op; 
+	
+	utf8op = utf8_offsets;
+
+	rsize_t cur_utf8char = 0;
 
 	while ( i < FILE_SIZE )
 	{
 		c = fgetc(in);
 
-		if ( ( c >> 6 ) != 0b10 && ftell(in) > 0 ) //starting byte for UTF-8 character
+#if 0
+Print actual hexadecimal representation of UTF-8
+
+character
+#endif
+		if ( i == 0 )
 		{
-			memset_s(utf8_str,5*sizeof(uint8_t),0x00,5*sizeof(uint8_t));
-
-			memcpy(utf8_str,utf8_hex,5*sizeof(uint8_t));
-
-			reverse(utf8_str);
-
-					
+			printf("%.08x: ",i);
+			
 		}
 
+		else if ( !is_utf8cont(c) ) //starting byte for UTF-8 character
+		{
+			printf("%.08x ",utf8_hex);
+
+			utf8_hex = 0x00;
+			
+			*utf8op = ftell(in);
+
+				
+		}
+
+		else
+		{
+			utf8_hex += c;
+
+			utf8_hex <<= 8;
+
+			utf8_hex &= 0xffffff00	
+
+		}
+
+		if ( utf8i == UTF8_HEX_ROWS )
+		{
+			cur_utf8char = ftell(in);
+			
+			utf8op = utf8_offsets;
+
+			rsize_t ic = 0;
+
+			while ( utf8op < (utf8_offsets + UTF8_HEX_ROWS) )
+			{
+				fseek(in,*utf8op,SEEK_BEG);		
+				
+				while (ic > 0 && !is_utf8cont(c) )
+				{				
+					c = fgetc(in);
+
+					fputc(c,out);
+
+					ic++;
+				}
+
+				utf8op++;
+
+				ic = 0;
+			}	
+			
+			fseek(in,cur_utf8char,SEEK_BEG);
+			
+			utf8i = 0;
+
+			printf("\n%.08x: ",i);
+		}
+
+		else
+		{
+			utf8i++;	
+		}	
+
 		i++;
+
 	}	
 }
 
