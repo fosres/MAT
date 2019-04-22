@@ -44,6 +44,23 @@ typedef size_t rsize_t;
 #define RSIZE_MAX ( (SIZE_MAX ) >> ( 1 ) )
 #endif
 
+size_t strnlen_s(const char * s,size_t maxsize)
+{
+	if ( s == NULL )
+	{ return 0; }
+
+	size_t i = 0;
+
+	while ( (i < maxsize) && ( s[i] != '\0' ) )
+	{
+		i++;
+	}
+
+	return i;
+
+}
+
+
 void reverse(uint8_t arr[])
 {
 	uint8_t temp = 0;
