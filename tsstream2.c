@@ -142,6 +142,11 @@ void decrypt(FILE * msg, const rsize_t FILE_SIZE,  FILE * out, uint8_t * key)
 
 }
 
+uint8_t * strtokey(uint8_t * string_key)
+{
+
+
+}
 
 
 _Bool main(rsize_t argc, uint8_t ** argv)
@@ -169,9 +174,48 @@ _Bool main(rsize_t argc, uint8_t ** argv)
 
 	key = NULL;
 
+	while ( *++argv != NULL && **argv == 0x2d  )
+	{
+		switch( *++(*argv) )
+		{
+			case 0x64:
+			{
+				decryption_mode = 1;
 
+				key = *++argv; //Next argument must be keystring
 
-	if ( argv[2] != NULL && ( ( output = fopen(argv[2],"wb+") ) == NULL ) )
+				break;
+			}
+
+			default:
+			{
+				break;
+			}
+
+		}
+
+	}
+
+#if 0
+	if ( decryption_mode == 1 )
+	{
+		if ( argv[2] != NULL && ( ( output = fopen(argv[2],"wb+") ) == NULL ) )
+		{
+			fprintf(stderr,"\e[38;5;9m");
+
+			fprintf(stderr,"Error: Cannot open output file for writing!\n");
+
+			fprintf(stderr,"\e[0m");
+
+			return 1;
+		
+		}
+
+		return 0;
+	}
+#endif	
+
+	if ( argv[argc-1] != NULL && ( ( output = fopen(argv[argc-1],"wb+") ) == NULL ) )
 	{
 		fprintf(stderr,"\e[38;5;9m");
 
@@ -181,7 +225,7 @@ _Bool main(rsize_t argc, uint8_t ** argv)
 		
 	}
 
-	if ( ( input = fopen(argv[1],"rb") ) == NULL )
+	if ( ( input = fopen(argv[argc-2],"rb") ) == NULL )
 	{
 		fprintf(stderr,"\e[38;5;9m");
 
@@ -199,7 +243,15 @@ _Bool main(rsize_t argc, uint8_t ** argv)
 
 	rewind(input);
 
+if ( decryption_mode == 0 )
+{	
 	key = symmcipher(input,INPUT_FILE_SIZE,output);
+}
+
+else
+{
+	key = strtokey(key);
+}
 
 	fseek(output,0,SEEK_END);
 

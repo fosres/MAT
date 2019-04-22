@@ -999,6 +999,8 @@ character
 				ic = 0;
 			}	
 			
+			memset_s(utf8_offsets,UTF8_HEX_ROWS*sizeof(uint8_t),0x00,UTF8_HEX_ROWS*sizeof(uint8_t));	
+			
 			fseek(in,cur_utf8char,SEEK_BEG);
 			
 			utf8i = 0;
