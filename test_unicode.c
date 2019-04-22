@@ -20,7 +20,7 @@ void reverse(uint8_t s[])
 
 int main(void)
 {
-	uint32_t utf8_hex = 0xd8a8;
+	uint32_t utf8_hex = 0xdd91;
 
 	static uint8_t str[5];
 
