@@ -1,3 +1,19 @@
+#if 0
+
+Copyright (C) Tanveer Salim. 2018-INFINITY
+
+This program is distributed under a GNU GPL v2.0
+
+License and thus is free and open source software.
+
+All software and works that are inspired or are
+
+derivatives of this work must, in turn, be distributed
+
+with the exact same LICENSE and copyright permissions.
+
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
