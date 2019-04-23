@@ -34,10 +34,10 @@ Print simple hexdump of a file to stdout
 % tscd swiss.txt
 
 00000000:  49 20 6c 69 6b 65 20 63 68 65 65 73 65 73 2e 0a I like cheeses.·⏎
-\end{minted}
+
 
 Print simple hexdump of a file where 20 ASCII hexadecimal codes are printed per row to stdout
-\begin{minted}{c}
+
 % tscd -c 20 swiss_cheese.c
 
 00000000:  49 20 6c 69 6b 65 20 63 6f 6f 6b 69 65 73 2e 0a 0a 49 20 6c I like cookies.··I l
@@ -49,11 +49,11 @@ Print simple hexdump of a file where 20 ASCII hexadecimal codes are printed per 
 \end{minted}
 
 Print binary dump of a file named tscd4.c to a separate file named target.c
-\begin{minted}{c}
+
 % tscd -b swiss.txt swiss_binary_dump.txt
 
-\end{minted}
 
 
-\end{Major Upgrade To myxxd: tscd}
+
+
 
